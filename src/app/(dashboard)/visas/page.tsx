@@ -2,91 +2,128 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Trash2, Plus } from 'lucide-react';
 
 const API_URL = 'http://127.0.0.1:8000/api/visas/';
 
 export default function VisasPage() {
-  const [visas, setVisas] = useState([]);
-  const [formData, setFormData] = useState({
-    country: '', visa_type: '', processing_time: '', price: '', requirements: ''
-  });
+  const [items, setItems] = useState([]);
+  const [formData, setFormData] = useState({country: '', visa_type: '', processing_time: '', price: '', requirements: ''});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchVisas();
+    fetchData();
   }, []);
 
-  const fetchVisas = async () => {
+  const fetchData = async () => {
     try {
       const res = await axios.get(API_URL);
-      setVisas(res.data);
+      setItems(res.data);
     } catch (err) {
-      console.error('Error fetching visas:', err);
+      console.error('Error fetching data:', err);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await axios.post(API_URL, formData);
-      setFormData({ country: '', visa_type: '', processing_time: '', price: '', requirements: '' });
-      fetchVisas();
+      setFormData({country: '', visa_type: '', processing_time: '', price: '', requirements: ''});
+      fetchData();
     } catch (err) {
-      console.error('Error creating visa:', err);
+      console.error('Error creating item:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id: number) => {
+    if(!confirm('Are you sure you want to delete this?')) return;
     try {
       await axios.delete(`${API_URL}${id}/`);
-      fetchVisas();
+      fetchData();
     } catch (err) {
-      console.error('Error deleting visa:', err);
+      console.error('Error deleting item:', err);
     }
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Manage Visas</h1>
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <h1 className="text-4xl font-bold text-white mb-8">Manage Visas</h1>
       
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
-        <h2 className="text-xl font-bold mb-4">Add New Visa</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" placeholder="Country" className="border p-2 rounded" required
-            value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} />
-          <input type="text" placeholder="Visa Type" className="border p-2 rounded" required
-            value={formData.visa_type} onChange={e => setFormData({...formData, visa_type: e.target.value})} />
-          <input type="text" placeholder="Processing Time" className="border p-2 rounded" required
-            value={formData.processing_time} onChange={e => setFormData({...formData, processing_time: e.target.value})} />
-          <input type="number" step="0.01" placeholder="Price" className="border p-2 rounded" required
-            value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
-          <textarea placeholder="Requirements" className="border p-2 rounded md:col-span-2" 
-            value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} />
-          <button type="submit" className="bg-blue-600 text-white p-2 rounded md:col-span-2 hover:bg-blue-700">Add Visa</button>
+      <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl mb-8 overflow-hidden">
+        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center gap-2">
+          <Plus className="text-[#F4B942]" size={20} />
+          <h2 className="text-lg font-bold text-white">Add New Visa</h2>
+        </div>
+        <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Country</label>
+            <input type="text" step="0.01" placeholder="Enter Country" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+              value={formData.country} onChange={e => setFormData({...formData, country: e.target.value})} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Visa Type</label>
+            <input type="text" step="0.01" placeholder="Enter Visa Type" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+              value={formData.visa_type} onChange={e => setFormData({...formData, visa_type: e.target.value})} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Processing Time</label>
+            <input type="text" step="0.01" placeholder="Enter Processing Time" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+              value={formData.processing_time} onChange={e => setFormData({...formData, processing_time: e.target.value})} />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Price ($)</label>
+            <input type="number" step="0.01" placeholder="Enter Price ($)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+              value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
+          </div>
+          <div className="flex flex-col gap-1.5 md:col-span-2">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Requirements</label>
+            <textarea placeholder="Enter Requirements" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors min-h-[100px]" required
+              value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} />
+          </div>
+          <div className="md:col-span-2 mt-2">
+            <button type="submit" disabled={loading} className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#5B9BD5] to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50">
+              {loading ? 'Saving...' : 'Save Visa'}
+            </button>
+          </div>
         </form>
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <h2 className="text-xl font-bold mb-4">Current Visas</h2>
+      <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340]">
+          <h2 className="text-lg font-bold text-white">Current Visas</h2>
+        </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b">
-                <th className="p-2">ID</th>
-                <th className="p-2">Country</th>
-                <th className="p-2">Type</th>
-                <th className="p-2">Price</th>
-                <th className="p-2">Actions</th>
+          <table className="w-full text-sm">
+            <thead className="bg-[#1a1d24]">
+              <tr>
+                <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">ID</th>
+                <th className="p-4 text-left font-semibold text-[#94a3b8]">Country</th>
+<th className="p-4 text-left font-semibold text-[#94a3b8]">Type</th>
+<th className="p-4 text-left font-semibold text-[#94a3b8]">Price</th>
+
+                <th className="p-4 text-right font-semibold text-[#94a3b8] w-24">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {visas.map((visa: any) => (
-                <tr key={visa.id} className="border-b">
-                  <td className="p-2">{visa.id}</td>
-                  <td className="p-2">{visa.country}</td>
-                  <td className="p-2">{visa.visa_type}</td>
-                  <td className="p-2">${visa.price}</td>
-                  <td className="p-2">
-                    <button onClick={() => handleDelete(visa.id)} className="text-red-500 hover:text-red-700">Delete</button>
+              {items.length === 0 ? (
+                <tr>
+                  <td colSpan={10} className="p-8 text-center text-[#94a3b8]">No data found.</td>
+                </tr>
+              ) : items.map((item: any) => (
+                <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
+                  <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">{item.country}</td>
+<td className="p-4 border-t border-[#2e3340] text-white">{item.visa_type}</td>
+<td className="p-4 border-t border-[#2e3340] text-white">{item.price}</td>
+
+                  <td className="p-4 border-t border-[#2e3340] text-right">
+                    <button onClick={() => handleDelete(item.id)} className="p-2 text-[#94a3b8] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors">
+                      <Trash2 size={18} />
+                    </button>
                   </td>
                 </tr>
               ))}

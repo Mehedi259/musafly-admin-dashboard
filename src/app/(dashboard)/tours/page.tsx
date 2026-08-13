@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Trash2, Plus } from 'lucide-react';
+import { Trash2, Plus, X } from 'lucide-react';
 
 const API_URL = '/api/tours/';
 
@@ -10,6 +10,7 @@ export default function ToursPage() {
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({destination: '', duration: '', price: '', image_url: '', inclusions: ''});
   const [loading, setLoading] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -31,6 +32,7 @@ export default function ToursPage() {
       await axios.post(API_URL, formData);
       setFormData({destination: '', duration: '', price: '', image_url: '', inclusions: ''});
       fetchData();
+      setIsFormVisible(false);
     } catch (err) {
       console.error('Error creating item:', err);
     } finally {
@@ -43,6 +45,7 @@ export default function ToursPage() {
     try {
       await axios.delete(`${API_URL}${id}/`);
       fetchData();
+      setIsFormVisible(false);
     } catch (err) {
       console.error('Error deleting item:', err);
     }
@@ -50,9 +53,16 @@ export default function ToursPage() {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h1 className="text-4xl font-bold text-white mb-8">Manage Tours</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-4xl font-bold text-white">Manage Tours</h1>
+        <button type="button" onClick={() => setIsFormVisible(!isFormVisible)} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
+          {isFormVisible ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
+          <span className="font-semibold">{isFormVisible ? 'Cancel' : 'Add New Tour'}</span>
+        </button>
+      </div>
       
-      <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl mb-8 overflow-hidden">
+      {isFormVisible && (
+      <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl mb-8 overflow-hidden animate-in slide-in-from-top-4 duration-300">
         <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center gap-2">
           <Plus className="text-[#F4B942]" size={20} />
           <h2 className="text-lg font-bold text-white">Add New Tour</h2>
@@ -91,6 +101,8 @@ export default function ToursPage() {
           </div>
         </form>
       </div>
+
+      )}
 
       <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl overflow-hidden">
         <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340]">

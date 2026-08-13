@@ -6,6 +6,8 @@ import axios from 'axios';
 export default function DashboardHome() {
   const [counts, setCounts] = useState({
     tours: 0,
+    testimonials: 0,
+    faqs: 0,
     flights: 0,
     visas: 0,
     umrah: 0,
@@ -16,11 +18,13 @@ export default function DashboardHome() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [toursRes, flightsRes, visasRes, umrahRes] = await Promise.all([
-          axios.get('http://127.0.0.1:8000/api/tours/').catch(() => ({ data: [] })),
-          axios.get('http://127.0.0.1:8000/api/flights/').catch(() => ({ data: [] })),
-          axios.get('http://127.0.0.1:8000/api/visas/').catch(() => ({ data: [] })),
-          axios.get('http://127.0.0.1:8000/api/umrah/').catch(() => ({ data: [] })),
+        const [toursRes, flightsRes, visasRes, umrahRes, testimonialsRes, faqsRes] = await Promise.all([
+          axios.get('http://46.225.103.236:8001/api/tours/').catch(() => ({ data: [] })),
+          axios.get('http://46.225.103.236:8001/api/flights/').catch(() => ({ data: [] })),
+          axios.get('http://46.225.103.236:8001/api/visas/').catch(() => ({ data: [] })),
+          axios.get('http://46.225.103.236:8001/api/umrah/').catch(() => ({ data: [] })),
+          axios.get('http://46.225.103.236:8001/api/testimonials/').catch(() => ({ data: [] })),
+          axios.get('http://46.225.103.236:8001/api/faqs/').catch(() => ({ data: [] })),
         ]);
 
         setCounts({
@@ -28,6 +32,8 @@ export default function DashboardHome() {
           flights: flightsRes.data.length || 0,
           visas: visasRes.data.length || 0,
           umrah: umrahRes.data.length || 0,
+          testimonials: testimonialsRes.data.length || 0,
+          faqs: faqsRes.data.length || 0,
         });
       } catch (err) {
         console.error('Error fetching dashboard stats:', err);
@@ -43,7 +49,9 @@ export default function DashboardHome() {
     { label: "Total Tours", value: counts.tours, color: "from-blue-500 to-cyan-400" },
     { label: "Total Flights", value: counts.flights, color: "from-purple-500 to-pink-500" },
     { label: "Total Visas", value: counts.visas, color: "from-amber-400 to-orange-500" },
-    { label: "Umrah Packages", value: counts.umrah, color: "from-emerald-400 to-teal-500" }
+    { label: "Umrah Packages", value: counts.umrah, color: "from-emerald-400 to-teal-500" },
+    { label: "Customer Ratings", value: counts.testimonials, color: "from-indigo-400 to-purple-500" },
+    { label: "FAQs", value: counts.faqs, color: "from-rose-400 to-red-500" }
   ];
 
   return (

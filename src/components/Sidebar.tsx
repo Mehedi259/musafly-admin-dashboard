@@ -23,9 +23,9 @@ export default function Sidebar() {
     <>
       {/* Mobile Menu Button */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#1a1d24] border-b border-[#2e3340] z-40 flex items-center justify-between px-4">
-        <h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5B9BD5] to-[#F4B942]">
+        <Link href="/"><h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5B9BD5] to-[#F4B942]">
           MusaFly Admin
-        </h1>
+        </h1></Link>
         <button onClick={() => setIsOpen(!isOpen)} className="text-white p-2">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -46,9 +46,9 @@ export default function Sidebar() {
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="p-6 border-b border-[#2e3340] hidden md:block">
-          <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5B9BD5] to-[#F4B942]">
+          <Link href="/"><h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5B9BD5] to-[#F4B942]">
             MusaFly Admin
-          </h1>
+          </h1></Link>
         </div>
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto mt-16 md:mt-0">
           {links.map((link) => {

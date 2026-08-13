@@ -8,7 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API
 
 export default function TestimonialsPage() {
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({name: '', location: '', image_url: '', rating: 5, text: ''});
+  const [formData, setFormData] = useState({name: '', location: '', image: null as File | null, rating: 5, text: ''});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -29,8 +29,18 @@ export default function TestimonialsPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(API_URL, formData);
-      setFormData({name: '', location: '', image_url: '', rating: 5, text: ''});
+            const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          data.append(key, value as string | Blob);
+        }
+      });
+      await axios.post(API_URL, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      setFormData({name: '', location: '', image: null as File | null, rating: 5, text: ''});
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
@@ -80,9 +90,8 @@ export default function TestimonialsPage() {
               value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Image URL</label>
-            <input type="url" placeholder="Enter Image URL" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
-              value={formData.image_url} onChange={e => setFormData({...formData, image_url: e.target.value})} />
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Image</label>
+            <input type="file" accept="image/*" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" onChange={e => setFormData({...formData, image: e.target.files ? e.target.files[0] : null})} />
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Rating (1-5)</label>

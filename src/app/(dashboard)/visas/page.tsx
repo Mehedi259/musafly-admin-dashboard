@@ -85,8 +85,8 @@ export default function VisasPage() {
               value={formData.processing_time} onChange={e => setFormData({...formData, processing_time: e.target.value})} />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Price ($)</label>
-            <input type="number" step="0.01" placeholder="Enter Price ($)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Price (OMR)</label>
+            <input type="number" step="0.01" placeholder="Enter Price (OMR)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
               value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
           </div>
           <div className="flex flex-col gap-1.5 md:col-span-2">
@@ -130,7 +130,7 @@ export default function VisasPage() {
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.country}</td>
 <td className="p-4 border-t border-[#2e3340] text-white">{item.visa_type}</td>
-<td className="p-4 border-t border-[#2e3340] text-white">{item.price}</td>
+<td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>
 
                   <td className="p-4 border-t border-[#2e3340] text-right">
                     <button onClick={() => handleDelete(item.id)} className="p-2 text-[#94a3b8] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors">

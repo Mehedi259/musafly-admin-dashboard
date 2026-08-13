@@ -122,8 +122,8 @@ export default function FlightsPage() {
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.airline}</td>
-<td className="p-4 border-t border-[#2e3340] text-white">{item.{item.origin} → {item.destination}}</td>
-<td className="p-4 border-t border-[#2e3340] text-white">{item.price}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">{item.origin} → {item.destination}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">${item.price}</td>
 
                   <td className="p-4 border-t border-[#2e3340] text-right">
                     <button onClick={() => handleDelete(item.id)} className="p-2 text-[#94a3b8] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors">

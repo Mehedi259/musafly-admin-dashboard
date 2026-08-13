@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Trash2, Plus, X } from 'lucide-react';
+import { Trash2, Plus, X, Edit2 } from 'lucide-react';
 
 const API_URL = '/api/umrah/';
 
@@ -11,6 +11,7 @@ export default function UmrahPage() {
   const [formData, setFormData] = useState({package_name: '', price: '', inclusions: ''});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -29,15 +30,46 @@ export default function UmrahPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(API_URL, formData);
+      if (editId) {
+        await axios.put(`${API_URL}${editId}/`, formData);
+      } else {
+        await axios.post(API_URL, formData);
+      }
       setFormData({package_name: '', price: '', inclusions: ''});
+      setEditId(null);
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
-      console.error('Error creating item:', err);
+      console.error('Error saving item:', err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = (item: any) => {
+    setFormData({
+      package_name: item.package_name,
+      price: item.price,
+      inclusions: item.inclusions
+    });
+    setEditId(item.id);
+    setIsFormVisible(true);
+  };
+
+  const handleAddNew = () => {
+    if (isFormVisible && !editId) {
+      setIsFormVisible(false);
+    } else {
+      setFormData({package_name: '', price: '', inclusions: ''});
+      setEditId(null);
+      setIsFormVisible(true);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsFormVisible(false);
+    setEditId(null);
+    setFormData({package_name: '', price: '', inclusions: ''});
   };
 
   const handleDelete = async (id: number) => {
@@ -55,17 +87,24 @@ export default function UmrahPage() {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-4xl font-bold text-white">Manage Umrah</h1>
-        <button type="button" onClick={() => setIsFormVisible(!isFormVisible)} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
-          {isFormVisible ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
-          <span className="font-semibold">{isFormVisible ? 'Cancel' : 'Add New Umrah'}</span>
-        </button>
+        {items.length === 0 && (
+          <button type="button" onClick={handleAddNew} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
+            {isFormVisible && !editId ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
+            <span className="font-semibold">{isFormVisible && !editId ? 'Cancel' : 'Add New Umrah'}</span>
+          </button>
+        )}
       </div>
       
       {isFormVisible && (
       <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl mb-8 overflow-hidden animate-in slide-in-from-top-4 duration-300">
-        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center gap-2">
-          <Plus className="text-[#F4B942]" size={20} />
-          <h2 className="text-lg font-bold text-white">Add New Package</h2>
+        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {editId ? <Edit2 className="text-[#F4B942]" size={20} /> : <Plus className="text-[#F4B942]" size={20} />}
+            <h2 className="text-lg font-bold text-white">{editId ? 'Edit Package' : 'Add New Package'}</h2>
+          </div>
+          <button type="button" onClick={handleCancel} className="text-[#94a3b8] hover:text-white">
+            <X size={20} />
+          </button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           
@@ -121,6 +160,9 @@ export default function UmrahPage() {
 <td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>
 
                   <td className="p-4 border-t border-[#2e3340] text-right">
+                    <button onClick={() => handleEdit(item)} className="p-2 text-[#94a3b8] hover:text-[#5B9BD5] hover:bg-[#5B9BD5]/10 rounded-lg transition-colors mr-2">
+                      <Edit2 size={18} />
+                    </button>
                     <button onClick={() => handleDelete(item.id)} className="p-2 text-[#94a3b8] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors">
                       <Trash2 size={18} />
                     </button>

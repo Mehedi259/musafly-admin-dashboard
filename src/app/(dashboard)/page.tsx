@@ -1,9 +1,49 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 export default function DashboardHome() {
+  const [counts, setCounts] = useState({
+    tours: 0,
+    flights: 0,
+    visas: 0,
+    umrah: 0,
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [toursRes, flightsRes, visasRes, umrahRes] = await Promise.all([
+          axios.get('http://127.0.0.1:8000/api/tours/').catch(() => ({ data: [] })),
+          axios.get('http://127.0.0.1:8000/api/flights/').catch(() => ({ data: [] })),
+          axios.get('http://127.0.0.1:8000/api/visas/').catch(() => ({ data: [] })),
+          axios.get('http://127.0.0.1:8000/api/umrah/').catch(() => ({ data: [] })),
+        ]);
+
+        setCounts({
+          tours: toursRes.data.length || 0,
+          flights: flightsRes.data.length || 0,
+          visas: visasRes.data.length || 0,
+          umrah: umrahRes.data.length || 0,
+        });
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   const stats = [
-    { label: "Total Tours", value: "Manage", color: "from-blue-500 to-cyan-400" },
-    { label: "Total Flights", value: "Manage", color: "from-purple-500 to-pink-500" },
-    { label: "Total Visas", value: "Manage", color: "from-amber-400 to-orange-500" },
-    { label: "Umrah Packages", value: "Manage", color: "from-emerald-400 to-teal-500" }
+    { label: "Total Tours", value: counts.tours, color: "from-blue-500 to-cyan-400" },
+    { label: "Total Flights", value: counts.flights, color: "from-purple-500 to-pink-500" },
+    { label: "Total Visas", value: counts.visas, color: "from-amber-400 to-orange-500" },
+    { label: "Umrah Packages", value: counts.umrah, color: "from-emerald-400 to-teal-500" }
   ];
 
   return (
@@ -13,8 +53,8 @@ export default function DashboardHome() {
         {stats.map((stat, i) => (
           <div key={i} className="bg-[#1a1d24] border border-[#2e3340] p-6 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all">
             <h3 className="text-[#94a3b8] text-sm font-semibold uppercase tracking-wider mb-2">{stat.label}</h3>
-            <div className={`text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r ${stat.color}`}>
-              {stat.value}
+            <div className={`text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r ${stat.color}`}>
+              {loading ? "..." : stat.value}
             </div>
           </div>
         ))}

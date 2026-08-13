@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Trash2, Plus } from 'lucide-react';
 
-const API_URL = 'http://46.225.103.236:8001/api/visas/';
+const API_URL = '/api/visas/';
 
 export default function VisasPage() {
   const [items, setItems] = useState([]);

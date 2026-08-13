@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Trash2, Plus } from 'lucide-react';
 
-const API_URL = 'http://46.225.103.236:8001/api/tours/';
+const API_URL = '/api/tours/';
 
 export default function ToursPage() {
   const [items, setItems] = useState([]);

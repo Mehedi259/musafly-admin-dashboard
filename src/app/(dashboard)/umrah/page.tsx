@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Trash2, Plus } from 'lucide-react';
 
-const API_URL = 'http://46.225.103.236:8001/api/umrah/';
+const API_URL = '/api/umrah/';
 
 export default function UmrahPage() {
   const [items, setItems] = useState([]);

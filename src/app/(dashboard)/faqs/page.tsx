@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Trash2, Plus } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}faqs/` : 'http://46.225.103.236:8001/api/faqs/';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}faqs/` : '/api/faqs/';
 
 export default function FAQsPage() {
   const [items, setItems] = useState([]);

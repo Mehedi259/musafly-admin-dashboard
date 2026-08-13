@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Home, Plane, Map, FileText, Moon } from 'lucide-react';
+import { Home, Plane, Map, FileText, Moon, MessageSquare, HelpCircle } from 'lucide-react';
 
 export default function Sidebar() {
   const links = [
@@ -8,6 +8,8 @@ export default function Sidebar() {
     { name: 'Flights', href: '/flights', icon: Plane },
     { name: 'Visas', href: '/visas', icon: FileText },
     { name: 'Umrah', href: '/umrah', icon: Moon },
+    { name: 'Testimonials', href: '/testimonials', icon: MessageSquare },
+    { name: 'FAQs', href: '/faqs', icon: HelpCircle },
   ];
 
   return (

@@ -19,12 +19,12 @@ export default function DashboardHome() {
     const fetchStats = async () => {
       try {
         const [toursRes, flightsRes, visasRes, umrahRes, testimonialsRes, faqsRes] = await Promise.all([
-          axios.get('http://46.225.103.236:8001/api/tours/').catch(() => ({ data: [] })),
-          axios.get('http://46.225.103.236:8001/api/flights/').catch(() => ({ data: [] })),
-          axios.get('http://46.225.103.236:8001/api/visas/').catch(() => ({ data: [] })),
-          axios.get('http://46.225.103.236:8001/api/umrah/').catch(() => ({ data: [] })),
-          axios.get('http://46.225.103.236:8001/api/testimonials/').catch(() => ({ data: [] })),
-          axios.get('http://46.225.103.236:8001/api/faqs/').catch(() => ({ data: [] })),
+          axios.get('/api/tours/').catch(() => ({ data: [] })),
+          axios.get('/api/flights/').catch(() => ({ data: [] })),
+          axios.get('/api/visas/').catch(() => ({ data: [] })),
+          axios.get('/api/umrah/').catch(() => ({ data: [] })),
+          axios.get('/api/testimonials/').catch(() => ({ data: [] })),
+          axios.get('/api/faqs/').catch(() => ({ data: [] })),
         ]);
 
         setCounts({

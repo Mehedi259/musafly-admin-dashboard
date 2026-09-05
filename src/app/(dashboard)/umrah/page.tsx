@@ -73,7 +73,7 @@ export default function UmrahPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if(!confirm('Are you sure you want to delete this?')) return;
+    if(!confirm('আপনি কি এটি মুছতে চান?')) return;
     try {
       await axios.delete(`${API_URL}${id}/`);
       fetchData();
@@ -86,11 +86,11 @@ export default function UmrahPage() {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 className="text-4xl font-bold text-white">Manage Umrah</h1>
+        <h1 className="text-4xl font-bold text-white">ওমরাহ ম্যানেজমেন্ট</h1>
         {items.length === 0 && (
           <button type="button" onClick={handleAddNew} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
             {isFormVisible && !editId ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
-            <span className="font-semibold">{isFormVisible && !editId ? 'Cancel' : 'Add New Umrah'}</span>
+            <span className="font-semibold">{isFormVisible && !editId ? 'বাতিল' : 'নতুন ওমরাহ যোগ করুন'}</span>
           </button>
         )}
       </div>
@@ -109,13 +109,13 @@ export default function UmrahPage() {
         <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Package Name</label>
-            <input type="text" step="0.01" placeholder="Enter Package Name" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">প্যাকেজের নাম</label>
+            <input type="text" step="0.01" placeholder="প্যাকেজের নাম লিখুন" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
               value={formData.package_name} onChange={e => setFormData({...formData, package_name: e.target.value})} />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Price (OMR)</label>
-            <input type="number" step="0.01" placeholder="Enter Price (OMR)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">প্রাইস (OMR)</label>
+            <input type="number" step="0.01" placeholder="প্রাইস লিখুন (OMR)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
               value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
           </div>
           <div className="flex flex-col gap-1.5 md:col-span-2">
@@ -125,7 +125,7 @@ export default function UmrahPage() {
           </div>
           <div className="md:col-span-2 mt-2">
             <button type="submit" disabled={loading} className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#5B9BD5] to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50">
-              {loading ? 'Saving...' : 'Save Package'}
+              {loading ? 'সেভ হচ্ছে...' : 'Save Package'}
             </button>
           </div>
         </form>
@@ -135,23 +135,23 @@ export default function UmrahPage() {
 
       <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl overflow-hidden">
         <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340]">
-          <h2 className="text-lg font-bold text-white">Current Umrah</h2>
+          <h2 className="text-lg font-bold text-white">বর্তমান ওমরাহ প্যাকেজ</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-[#1a1d24]">
               <tr>
-                <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">ID</th>
-                <th className="p-4 text-left font-semibold text-[#94a3b8]">Package Name</th>
-<th className="p-4 text-left font-semibold text-[#94a3b8]">Price</th>
+                <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">আইডি</th>
+                <th className="p-4 text-left font-semibold text-[#94a3b8]">প্যাকেজের নাম</th>
+<th className="p-4 text-left font-semibold text-[#94a3b8]">প্রাইস</th>
 
-                <th className="p-4 text-right font-semibold text-[#94a3b8] w-24">Actions</th>
+                <th className="p-4 text-right font-semibold text-[#94a3b8] w-24">অ্যাকশন</th>
               </tr>
             </thead>
             <tbody>
               {items.length === 0 ? (
                 <tr>
-                  <td colSpan={10} className="p-8 text-center text-[#94a3b8]">No data found.</td>
+                  <td colSpan={10} className="p-8 text-center text-[#94a3b8]">কোনো তথ্য পাওয়া যায়নি।</td>
                 </tr>
               ) : items.map((item: any) => (
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">

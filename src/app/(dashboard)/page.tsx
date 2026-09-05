@@ -13,56 +13,56 @@ import {
 
 // --- MOCK DATA ---
 const areaData = [
-  { name: 'Jan 1', flights: 100, hotels: 40, tours: 20 },
-  { name: 'Jan 5', flights: 140, hotels: 60, tours: 15 },
-  { name: 'Jan 10', flights: 120, hotels: 75, tours: 30 },
-  { name: 'Jan 15', flights: 180, hotels: 80, tours: 40 },
-  { name: 'Jan 20', flights: 220, hotels: 110, tours: 50 },
-  { name: 'Jan 25', flights: 200, hotels: 90, tours: 60 },
-  { name: 'Jan 30', flights: 260, hotels: 130, tours: 80 },
+  { name: '১ জানু', flights: 100, hotels: 40, tours: 20 },
+  { name: '৫ জানু', flights: 140, hotels: 60, tours: 15 },
+  { name: '১০ জানু', flights: 120, hotels: 75, tours: 30 },
+  { name: '১৫ জানু', flights: 180, hotels: 80, tours: 40 },
+  { name: '২০ জানু', flights: 220, hotels: 110, tours: 50 },
+  { name: '২৫ জানু', flights: 200, hotels: 90, tours: 60 },
+  { name: '৩০ জানু', flights: 260, hotels: 130, tours: 80 },
 ];
 
 const donutData = [
-  { name: 'Confirmed', value: 848, color: '#3B82F6' },
-  { name: 'Pending', value: 225, color: '#F59E0B' },
-  { name: 'Cancelled', value: 100, color: '#EF4444' },
-  { name: 'Others', value: 75, color: '#9CA3AF' },
+  { name: 'WhatsApp', value: 650, color: '#25D366' },
+  { name: 'Messenger', value: 320, color: '#0084FF' },
+  { name: 'Direct Call', value: 150, color: '#F59E0B' },
+  { name: 'Website', value: 128, color: '#8B5CF6' },
 ];
 
 const barData = [
-  { name: 'Jan', value: 400 },
-  { name: 'Feb', value: 600 },
-  { name: 'Mar', value: 750 },
-  { name: 'Apr', value: 900 },
-  { name: 'May', value: 1100 },
+  { name: 'জানু', value: 400 },
+  { name: 'ফেব', value: 600 },
+  { name: 'মার্চ', value: 750 },
+  { name: 'এপ্রিল', value: 900 },
+  { name: 'মে', value: 1100 },
 ];
 
 const recentBookings = [
-  { id: 'TBK1001', customer: 'John Doe', service: 'Flight', icon: Plane, date: 'May 28, 2024', status: 'Confirmed', statusColor: 'bg-green-100 text-green-700' },
-  { id: 'TBK1002', customer: 'Sarah Khan', service: 'Hotel', icon: Building2, date: 'May 28, 2024', status: 'Pending', statusColor: 'bg-orange-100 text-orange-700' },
-  { id: 'TBK1003', customer: 'Mike Smith', service: 'Tour', icon: Briefcase, date: 'May 27, 2024', status: 'Confirmed', statusColor: 'bg-green-100 text-green-700' },
-  { id: 'TBK1004', customer: 'Ayesha Rahman', service: 'Flight', icon: Plane, date: 'May 27, 2024', status: 'Cancelled', statusColor: 'bg-red-100 text-red-700' },
-  { id: 'TBK1005', customer: 'David Lee', service: 'Transfer', icon: Briefcase, date: 'May 26, 2024', status: 'Confirmed', statusColor: 'bg-green-100 text-green-700' },
+  { id: 'TBK1001', customer: 'John Doe', service: 'ফ্লাইট', icon: Plane, date: '২৮ মে, ২০২৪', status: 'কনফার্মড', statusColor: 'bg-green-100 text-green-700' },
+  { id: 'TBK1002', customer: 'Sarah Khan', service: 'হোটেল', icon: Building2, date: '২৮ মে, ২০২৪', status: 'পেন্ডিং', statusColor: 'bg-orange-100 text-orange-700' },
+  { id: 'TBK1003', customer: 'Mike Smith', service: 'ট্যুর', icon: Briefcase, date: '২৭ মে, ২০২৪', status: 'কনফার্মড', statusColor: 'bg-green-100 text-green-700' },
+  { id: 'TBK1004', customer: 'Ayesha Rahman', service: 'ফ্লাইট', icon: Plane, date: '২৭ মে, ২০২৪', status: 'ক্যানসেলড', statusColor: 'bg-red-100 text-red-700' },
+  { id: 'TBK1005', customer: 'David Lee', service: 'ট্রান্সফার', icon: Briefcase, date: '২৬ মে, ২০২৪', status: 'কনফার্মড', statusColor: 'bg-green-100 text-green-700' },
 ];
 
 const topDestinations = [
-  { name: 'Bangkok', country: 'Thailand', percent: 18 },
-  { name: 'Dubai', country: 'UAE', percent: 15 },
-  { name: 'New York', country: 'USA', percent: 12 },
-  { name: 'Singapore', country: 'Singapore', percent: 10 },
-  { name: 'London', country: 'UK', percent: 8 },
+  { name: 'ব্যাংকক', country: 'থাইল্যান্ড', percent: 18 },
+  { name: 'দুবাই', country: 'ইউএই (UAE)', percent: 15 },
+  { name: 'নিউ ইয়র্ক', country: 'যুক্তরাষ্ট্র (USA)', percent: 12 },
+  { name: 'সিঙ্গাপুর', country: 'সিঙ্গাপুর', percent: 10 },
+  { name: 'লন্ডন', country: 'যুক্তরাজ্য (UK)', percent: 8 },
 ];
 
 const upcomingFlights = [
-  { flight: 'BG102', route: 'Dhaka → Bangkok', date: 'May 29, 2024', status: 'On Time', statusColor: 'bg-green-100 text-green-700' },
-  { flight: 'EK584', route: 'Dubai → New York', date: 'May 29, 2024', status: 'On Time', statusColor: 'bg-green-100 text-green-700' },
-  { flight: 'SQ317', route: 'Singapore → Dhaka', date: 'May 30, 2024', status: 'Delayed', statusColor: 'bg-red-100 text-red-700' },
+  { flight: 'BG102', route: 'ঢাকা → ব্যাংকক', date: '২৯ মে, ২০২৪', status: 'অন টাইম', statusColor: 'bg-green-100 text-green-700' },
+  { flight: 'EK584', route: 'দুবাই → নিউ ইয়র্ক', date: '২৯ মে, ২০২৪', status: 'অন টাইম', statusColor: 'bg-green-100 text-green-700' },
+  { flight: 'SQ317', route: 'সিঙ্গাপুর → ঢাকা', date: '৩০ মে, ২০২৪', status: 'ডিলেড', statusColor: 'bg-red-100 text-red-700' },
 ];
 
 const recentHotels = [
-  { hotel: 'Grand Hyatt', guest: 'John Doe', date: 'May 28', status: 'Confirmed', statusColor: 'bg-green-100 text-green-700' },
-  { hotel: 'Marina Bay Sands', guest: 'Sarah Khan', date: 'May 29', status: 'Pending', statusColor: 'bg-orange-100 text-orange-700' },
-  { hotel: 'The Ritz London', guest: 'Mike Smith', date: 'May 30', status: 'Confirmed', statusColor: 'bg-green-100 text-green-700' },
+  { hotel: 'Grand Hyatt', guest: 'John Doe', date: '২৮ মে', status: 'কনফার্মড', statusColor: 'bg-green-100 text-green-700' },
+  { hotel: 'Marina Bay Sands', guest: 'Sarah Khan', date: '২৯ মে', status: 'পেন্ডিং', statusColor: 'bg-orange-100 text-orange-700' },
+  { hotel: 'The Ritz London', guest: 'Mike Smith', date: '৩০ মে', status: 'কনফার্মড', statusColor: 'bg-green-100 text-green-700' },
 ];
 
 export default function DashboardHome() {
@@ -72,10 +72,10 @@ export default function DashboardHome() {
       {/* 1. TOP STATS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Total Bookings', value: '1,248', inc: '12.5%', icon: Briefcase, iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
-          { label: 'Flights Booked', value: '524', inc: '10.2%', icon: Plane, iconBg: 'bg-indigo-100', iconColor: 'text-indigo-600' },
-          { label: 'Hotels Booked', value: '412', inc: '14.8%', icon: Building2, iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
-          { label: 'Active Customers', value: '892', inc: '8.4%', icon: Users, iconBg: 'bg-sky-100', iconColor: 'text-sky-600' },
+          { label: 'মোট বুকিং', value: '১,২৪৮', inc: '১২.৫%', icon: Briefcase, iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
+          { label: 'বুক করা ফ্লাইট', value: '৫২৪', inc: '১০.২%', icon: Plane, iconBg: 'bg-indigo-100', iconColor: 'text-indigo-600' },
+          { label: 'বুক করা হোটেল', value: '৪১২', inc: '১৪.৮%', icon: Building2, iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
+          { label: 'অ্যাক্টিভ কাস্টমার', value: '৮৯২', inc: '৮.৪%', icon: Users, iconBg: 'bg-sky-100', iconColor: 'text-sky-600' },
         ].map((stat, i) => (
           <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 hover:shadow-md transition-shadow">
             <div className={`w-14 h-14 rounded-2xl ${stat.iconBg} flex items-center justify-center flex-shrink-0`}>
@@ -87,7 +87,7 @@ export default function DashboardHome() {
               <div className="flex items-center gap-1 mt-1">
                 <ArrowUpRight size={14} className="text-green-500" />
                 <span className="text-xs font-semibold text-green-600">{stat.inc}</span>
-                <span className="text-xs text-gray-400 ml-1">vs. last month</span>
+                <span className="text-xs text-gray-400 ml-1">গত মাসের তুলনায়</span>
               </div>
             </div>
           </div>
@@ -99,17 +99,17 @@ export default function DashboardHome() {
         {/* Area Chart */}
         <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-gray-900">Bookings Overview</h2>
+            <h2 className="text-lg font-bold text-gray-900">বুকিং ওভারভিউ</h2>
             <div className="flex bg-gray-100 rounded-lg p-1">
-              <button className="px-4 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md shadow-sm">This Month</button>
-              <button className="px-4 py-1.5 text-xs font-semibold text-gray-500 hover:text-gray-700">Last Month</button>
-              <button className="px-4 py-1.5 text-xs font-semibold text-gray-500 hover:text-gray-700">Last 3 Months</button>
+              <button className="px-4 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md shadow-sm">এই মাস</button>
+              <button className="px-4 py-1.5 text-xs font-semibold text-gray-500 hover:text-gray-700">গত মাস</button>
+              <button className="px-4 py-1.5 text-xs font-semibold text-gray-500 hover:text-gray-700">গত ৩ মাস</button>
             </div>
           </div>
           <div className="flex items-center gap-6 mb-4">
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-blue-500"></div><span className="text-sm text-gray-600 font-medium">Flights</span></div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-green-500"></div><span className="text-sm text-gray-600 font-medium">Hotels</span></div>
-            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-500"></div><span className="text-sm text-gray-600 font-medium">Tours</span></div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-blue-500"></div><span className="text-sm text-gray-600 font-medium">ফ্লাইট</span></div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-green-500"></div><span className="text-sm text-gray-600 font-medium">হোটেল</span></div>
+            <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-purple-500"></div><span className="text-sm text-gray-600 font-medium">ট্যুর</span></div>
           </div>
           <div className="h-[250px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -142,7 +142,7 @@ export default function DashboardHome() {
 
         {/* Donut Chart */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-          <h2 className="text-lg font-bold text-gray-900 mb-6">Booking Status</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-6">কাস্টমার সোর্স</h2>
           <div className="relative flex-1 min-h-[200px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -165,8 +165,8 @@ export default function DashboardHome() {
             </ResponsiveContainer>
             {/* Center Text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-3xl font-bold text-gray-900">1,248</span>
-              <span className="text-xs text-gray-500 font-medium">Total Bookings</span>
+              <span className="text-3xl font-bold text-gray-900">১,২৪৮</span>
+              <span className="text-xs text-gray-500 font-medium">মোট ক্লাইন্ট</span>
             </div>
           </div>
           {/* Legend */}
@@ -193,18 +193,18 @@ export default function DashboardHome() {
         {/* Recent Bookings */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-lg font-bold text-gray-900">Recent Bookings</h2>
-            <a href="#" className="text-blue-600 text-sm font-semibold hover:underline">View All</a>
+            <h2 className="text-lg font-bold text-gray-900">সাম্প্রতিক বুকিং</h2>
+            <a href="#" className="text-blue-600 text-sm font-semibold hover:underline">সব দেখুন</a>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50/50 text-gray-500 font-medium">
                 <tr>
-                  <th className="px-6 py-4">Booking ID</th>
-                  <th className="px-6 py-4">Customer</th>
-                  <th className="px-6 py-4">Service</th>
-                  <th className="px-6 py-4">Date</th>
-                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">বুকিং আইডি</th>
+                  <th className="px-6 py-4">কাস্টমার</th>
+                  <th className="px-6 py-4">সার্ভিস</th>
+                  <th className="px-6 py-4">তারিখ</th>
+                  <th className="px-6 py-4">স্ট্যাটাস</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -234,15 +234,15 @@ export default function DashboardHome() {
         {/* Top Destinations */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-bold text-gray-900">Top Destinations</h2>
-            <a href="#" className="text-blue-600 text-sm font-semibold hover:underline">View All</a>
+            <h2 className="text-lg font-bold text-gray-900">জনপ্রিয় গন্তব্য</h2>
+            <a href="#" className="text-blue-600 text-sm font-semibold hover:underline">সব দেখুন</a>
           </div>
           <div className="space-y-6">
             {topDestinations.map((dest, i) => (
               <div key={i} className="flex items-center gap-4">
                 {/* Image Placeholder */}
                 <div className="w-12 h-10 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0 relative">
-                  <div className="absolute inset-0 bg-blue-100/50 flex items-center justify-center text-[10px] text-blue-800 font-bold">IMG</div>
+                  <div className="absolute inset-0 bg-blue-100/50 flex items-center justify-center text-[10px] text-blue-800 font-bold">ছবি</div>
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between mb-1">
@@ -268,16 +268,16 @@ export default function DashboardHome() {
         {/* Upcoming Flights */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-base font-bold text-gray-900">Upcoming Flights</h2>
-            <a href="#" className="text-blue-600 text-xs font-semibold hover:underline">View All</a>
+            <h2 className="text-base font-bold text-gray-900">আসন্ন ফ্লাইট</h2>
+            <a href="#" className="text-blue-600 text-xs font-semibold hover:underline">সব দেখুন</a>
           </div>
           <table className="w-full text-left text-xs">
             <thead className="bg-gray-50/50 text-gray-500 font-medium">
               <tr>
-                <th className="px-5 py-3">Flight</th>
-                <th className="px-5 py-3">Route</th>
-                <th className="px-5 py-3">Date</th>
-                <th className="px-5 py-3 text-right">Status</th>
+                <th className="px-5 py-3">ফ্লাইট</th>
+                <th className="px-5 py-3">রুট</th>
+                <th className="px-5 py-3">তারিখ</th>
+                <th className="px-5 py-3 text-right">স্ট্যাটাস</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -298,16 +298,16 @@ export default function DashboardHome() {
         {/* Recent Hotels */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-5 border-b border-gray-100 flex justify-between items-center">
-            <h2 className="text-base font-bold text-gray-900">Recent Hotels Bookings</h2>
-            <a href="#" className="text-blue-600 text-xs font-semibold hover:underline">View All</a>
+            <h2 className="text-base font-bold text-gray-900">সাম্প্রতিক হোটেল বুকিং</h2>
+            <a href="#" className="text-blue-600 text-xs font-semibold hover:underline">সব দেখুন</a>
           </div>
           <table className="w-full text-left text-xs">
             <thead className="bg-gray-50/50 text-gray-500 font-medium">
               <tr>
-                <th className="px-5 py-3">Hotel</th>
-                <th className="px-5 py-3">Guest</th>
-                <th className="px-5 py-3">Date</th>
-                <th className="px-5 py-3 text-right">Status</th>
+                <th className="px-5 py-3">হোটেল</th>
+                <th className="px-5 py-3">গেস্ট</th>
+                <th className="px-5 py-3">তারিখ</th>
+                <th className="px-5 py-3 text-right">স্ট্যাটাস</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -328,8 +328,8 @@ export default function DashboardHome() {
         {/* Customer Growth */}
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-base font-bold text-gray-900">Customer Growth</h2>
-            <a href="#" className="text-blue-600 text-xs font-semibold hover:underline">View All</a>
+            <h2 className="text-base font-bold text-gray-900">কাস্টমার বৃদ্ধি</h2>
+            <a href="#" className="text-blue-600 text-xs font-semibold hover:underline">সব দেখুন</a>
           </div>
           <div className="flex-1 min-h-[150px]">
             <ResponsiveContainer width="100%" height="100%">

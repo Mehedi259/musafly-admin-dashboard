@@ -11,7 +11,7 @@ export default function TopBar() {
           <Search className="absolute left-4 text-gray-400" size={20} />
           <input
             type="text"
-            placeholder="Search bookings, customers, ..."
+            placeholder="বুকিং, কাস্টমার খুঁজুন..."
             className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm text-gray-700"
           />
         </div>
@@ -19,6 +19,12 @@ export default function TopBar() {
 
       {/* Right Actions */}
       <div className="flex items-center gap-6 ml-4">
+        
+        {/* Add Deal Button */}
+        <button className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-colors shadow-sm font-semibold text-sm">
+          <span>+ নতুন ডিল</span>
+        </button>
+
         {/* Notification Bell */}
         <button className="relative p-2 text-gray-500 hover:text-gray-700 transition-colors bg-gray-50 rounded-full border border-gray-100">
           <Bell size={20} />
@@ -28,7 +34,7 @@ export default function TopBar() {
         {/* Language Selector */}
         <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900 bg-gray-50 px-3 py-2 rounded-xl border border-gray-100 transition-colors text-sm font-medium">
           <Globe size={18} className="text-gray-400" />
-          <span>English</span>
+          <span>বাংলা</span>
           <ChevronDown size={16} className="text-gray-400" />
         </button>
 
@@ -40,8 +46,8 @@ export default function TopBar() {
             <User size={20} className="text-blue-600" />
           </div>
           <div className="hidden sm:block">
-            <p className="text-sm font-bold text-gray-900">Admin</p>
-            <p className="text-xs text-gray-500 font-medium">Super Admin</p>
+            <p className="text-sm font-bold text-gray-900">অ্যাডমিন</p>
+            <p className="text-xs text-gray-500 font-medium">সুপার অ্যাডমিন</p>
           </div>
           <ChevronDown size={16} className="text-gray-400 hidden sm:block ml-1" />
         </div>

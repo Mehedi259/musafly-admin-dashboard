@@ -44,7 +44,7 @@ export default function Sidebar() {
           </div>
           <div>
             <h1 className="text-lg font-bold text-white leading-tight">MusaFly</h1>
-            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest">Admin Dashboard</p>
+            <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest">অ্যাডমিন ড্যাশবোর্ড</p>
           </div>
         </div>
 
@@ -55,7 +55,7 @@ export default function Sidebar() {
             onClick={() => setIsOpen(false)} 
             className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${pathname === '/' ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'hover:bg-white/5 hover:text-white'}`}>
             <Home size={20} className={pathname === '/' ? 'text-white' : 'text-gray-400 group-hover:text-white'} />
-            <span className="font-medium">Dashboard</span>
+            <span className="font-medium">ড্যাশবোর্ড</span>
           </Link>
 
           {/* Bookings Section (Expandable) */}
@@ -66,19 +66,19 @@ export default function Sidebar() {
             >
               <div className="flex items-center gap-3">
                 <Briefcase size={20} className="text-gray-400 group-hover:text-white" />
-                <span className="font-medium">Bookings</span>
+                <span className="font-medium">বুকিং</span>
               </div>
               <ChevronDown size={16} className={`text-gray-500 transition-transform ${isBookingsOpen ? 'rotate-180' : ''}`} />
             </button>
             
             {isBookingsOpen && (
               <div className="pl-11 pr-4 py-2 space-y-1.5">
-                <Link href="/bookings" className="block py-2 text-sm text-gray-400 hover:text-white transition-colors">All Bookings</Link>
-                <Link href="/flights" className={`block py-2 text-sm transition-colors ${pathname === '/flights' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>Flights</Link>
-                <Link href="/hotels" className="block py-2 text-sm text-gray-400 hover:text-white transition-colors">Hotels</Link>
-                <Link href="/tours" className={`block py-2 text-sm transition-colors ${pathname === '/tours' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>Tours</Link>
-                <Link href="/visas" className={`block py-2 text-sm transition-colors ${pathname === '/visas' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>Visas</Link>
-                <Link href="/umrah" className={`block py-2 text-sm transition-colors ${pathname === '/umrah' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>Umrah</Link>
+                <Link href="/bookings" className="block py-2 text-sm text-gray-400 hover:text-white transition-colors">সব বুকিং</Link>
+                <Link href="/flights" className={`block py-2 text-sm transition-colors ${pathname === '/flights' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ফ্লাইট</Link>
+                <Link href="/hotels" className="block py-2 text-sm text-gray-400 hover:text-white transition-colors">হোটেল</Link>
+                <Link href="/tours" className={`block py-2 text-sm transition-colors ${pathname === '/tours' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ট্যুর</Link>
+                <Link href="/visas" className={`block py-2 text-sm transition-colors ${pathname === '/visas' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ভিসা</Link>
+                <Link href="/umrah" className={`block py-2 text-sm transition-colors ${pathname === '/umrah' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ওমরাহ</Link>
               </div>
             )}
           </div>
@@ -86,20 +86,20 @@ export default function Sidebar() {
           <Link href="/inventory" className="flex items-center justify-between px-4 py-2.5 rounded-xl transition-all group hover:bg-white/5 hover:text-white">
             <div className="flex items-center gap-3">
               <FileText size={20} className="text-gray-400 group-hover:text-white" />
-              <span className="font-medium">Inventory</span>
+              <span className="font-medium">ইনভেন্টরি</span>
             </div>
             <ChevronDown size={16} className="text-gray-500 -rotate-90" />
           </Link>
 
-          <Link href="/testimonials" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group ${pathname === '/testimonials' ? 'bg-blue-600 text-white' : 'hover:bg-white/5 hover:text-white'}`}>
-            <Users size={20} className={pathname === '/testimonials' ? 'text-white' : 'text-gray-400 group-hover:text-white'} />
-            <span className="font-medium">Customers</span>
+          <Link href="/customers" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group ${pathname === '/customers' ? 'bg-blue-600 text-white' : 'hover:bg-white/5 hover:text-white'}`}>
+            <Users size={20} className={pathname === '/customers' ? 'text-white' : 'text-gray-400 group-hover:text-white'} />
+            <span className="font-medium">কাস্টমার</span>
           </Link>
 
           <Link href="/reports" className="flex items-center justify-between px-4 py-2.5 rounded-xl transition-all group hover:bg-white/5 hover:text-white">
             <div className="flex items-center gap-3">
               <BarChart2 size={20} className="text-gray-400 group-hover:text-white" />
-              <span className="font-medium">Reports</span>
+              <span className="font-medium">রিপোর্টস</span>
             </div>
             <ChevronDown size={16} className="text-gray-500 -rotate-90" />
           </Link>
@@ -107,14 +107,14 @@ export default function Sidebar() {
           <Link href="/marketing" className="flex items-center justify-between px-4 py-2.5 rounded-xl transition-all group hover:bg-white/5 hover:text-white">
             <div className="flex items-center gap-3">
               <Megaphone size={20} className="text-gray-400 group-hover:text-white" />
-              <span className="font-medium">Marketing</span>
+              <span className="font-medium">মার্কেটিং</span>
             </div>
             <ChevronDown size={16} className="text-gray-500 -rotate-90" />
           </Link>
 
           <Link href="/settings" className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group hover:bg-white/5 hover:text-white">
             <Settings size={20} className="text-gray-400 group-hover:text-white" />
-            <span className="font-medium">Settings</span>
+            <span className="font-medium">সেটিংস</span>
           </Link>
         </nav>
 
@@ -126,12 +126,12 @@ export default function Sidebar() {
                 <Headset size={20} className="text-gray-300" />
               </div>
               <div>
-                <p className="text-sm font-bold text-white">Need Help?</p>
-                <p className="text-xs text-gray-400">Get support from our team</p>
+                <p className="text-sm font-bold text-white">সাহায্য প্রয়োজন?</p>
+                <p className="text-xs text-gray-400">আমাদের সাথে যোগাযোগ করুন</p>
               </div>
             </div>
             <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm">
-              Contact Us
+              যোগাযোগ
             </button>
           </div>
         </div>

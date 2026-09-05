@@ -5,6 +5,7 @@ import {
   ArrowUpRight, ArrowDownRight, CheckCircle2, 
   Clock, XCircle, MoreHorizontal
 } from 'lucide-react';
+import Image from 'next/image';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
@@ -46,11 +47,11 @@ const recentBookings = [
 ];
 
 const topDestinations = [
-  { name: 'ব্যাংকক', country: 'থাইল্যান্ড', percent: 18 },
-  { name: 'দুবাই', country: 'ইউএই (UAE)', percent: 15 },
-  { name: 'নিউ ইয়র্ক', country: 'যুক্তরাষ্ট্র (USA)', percent: 12 },
-  { name: 'সিঙ্গাপুর', country: 'সিঙ্গাপুর', percent: 10 },
-  { name: 'লন্ডন', country: 'যুক্তরাজ্য (UK)', percent: 8 },
+  { name: 'ব্যাংকক', country: 'থাইল্যান্ড', percent: 18, image: '/destinations/bangkok.jpg' },
+  { name: 'দুবাই', country: 'ইউএই (UAE)', percent: 15, image: '/destinations/dubai.jpg' },
+  { name: 'নিউ ইয়র্ক', country: 'যুক্তরাষ্ট্র (USA)', percent: 12, image: '/destinations/newyork.jpg' },
+  { name: 'সিঙ্গাপুর', country: 'সিঙ্গাপুর', percent: 10, image: '/destinations/singapore.jpg' },
+  { name: 'লন্ডন', country: 'যুক্তরাজ্য (UK)', percent: 8, image: '/destinations/london.jpg' },
 ];
 
 const upcomingFlights = [
@@ -240,9 +241,9 @@ export default function DashboardHome() {
           <div className="space-y-6">
             {topDestinations.map((dest, i) => (
               <div key={i} className="flex items-center gap-4">
-                {/* Image Placeholder */}
-                <div className="w-12 h-10 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0 relative">
-                  <div className="absolute inset-0 bg-blue-100/50 flex items-center justify-center text-[10px] text-blue-800 font-bold">ছবি</div>
+                {/* Destination Image */}
+                <div className="w-12 h-10 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0 relative border border-gray-100 shadow-sm">
+                  <Image src={dest.image} alt={dest.name} fill className="object-cover" />
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between mb-1">

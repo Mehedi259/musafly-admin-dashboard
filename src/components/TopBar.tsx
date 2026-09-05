@@ -1,10 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { Search, Bell, Globe, ChevronDown, User } from 'lucide-react';
+import ManualBookingForm from './forms/ManualBookingForm';
 
 export default function TopBar() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <header className="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8 z-10 w-full shadow-sm">
+    <>
+      <header className="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8 z-10 w-full shadow-sm">
       {/* Search Bar */}
       <div className="flex-1 max-w-xl">
         <div className="relative flex items-center">
@@ -21,7 +26,10 @@ export default function TopBar() {
       <div className="flex items-center gap-6 ml-4">
         
         {/* Add Deal Button */}
-        <button className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-colors shadow-sm font-semibold text-sm">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-colors shadow-sm font-semibold text-sm"
+        >
           <span>+ নতুন ডিল</span>
         </button>
 
@@ -52,6 +60,16 @@ export default function TopBar() {
           <ChevronDown size={16} className="text-gray-400 hidden sm:block ml-1" />
         </div>
       </div>
-    </header>
+      </header>
+
+      {/* Global Add Deal Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
+            <ManualBookingForm onClose={() => setIsModalOpen(false)} />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

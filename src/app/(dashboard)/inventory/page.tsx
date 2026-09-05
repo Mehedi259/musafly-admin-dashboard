@@ -1,6 +1,7 @@
 'use client';
 
-import { Package, Plane, Building, MoreVertical, Plus, Filter, Search } from 'lucide-react';
+import { useState } from 'react';
+import { Package, Plane, Building, MoreVertical, Plus, Filter, Search, X } from 'lucide-react';
 
 const mockInventory = [
   { id: 'INV-001', name: 'Cox\'s Bazar 3 Days Package', type: 'ট্যুর প্যাকেজ', typeIcon: Package, stock: 15, price: '৳ ১২,০০০', status: 'Available', statusColor: 'bg-green-100 text-green-700' },
@@ -11,6 +12,8 @@ const mockInventory = [
 ];
 
 export default function InventoryPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       
@@ -20,7 +23,10 @@ export default function InventoryPage() {
           <h1 className="text-3xl font-bold text-gray-900">ইনভেন্টরি ম্যানেজমেন্ট</h1>
           <p className="text-gray-500 text-sm mt-1">আপনার প্যাকেজ, ব্লক টিকিট এবং হোটেল রুমের স্টক ট্র্যাক করুন।</p>
         </div>
-        <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm"
+        >
           <Plus size={18} /> নতুন ইনভেন্টরি যোগ করুন
         </button>
       </div>
@@ -60,7 +66,10 @@ export default function InventoryPage() {
             className="w-full pl-11 pr-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
           />
         </div>
-        <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">
+        <button 
+          onClick={() => alert('ফিল্টার অপশন (Development in progress)')}
+          className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium"
+        >
           <Filter size={16} /> ফিল্টার
         </button>
       </div>
@@ -99,7 +108,12 @@ export default function InventoryPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="p-1 hover:text-gray-900 transition-colors text-gray-400"><MoreVertical size={16} /></button>
+                    <button 
+                      onClick={() => alert('এডিট/ডিলিট অপশন (Development in progress)')}
+                      className="p-1 hover:text-gray-900 transition-colors text-gray-400"
+                    >
+                      <MoreVertical size={16} />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -107,6 +121,38 @@ export default function InventoryPage() {
           </table>
         </div>
       </div>
+
+      {/* Add Inventory Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-900">নতুন ইনভেন্টরি যোগ করুন</h2>
+              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors"><X size={20}/></button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">প্যাকেজের নাম</label>
+                <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="Cox's Bazar 3 Days..." />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">স্টক</label>
+                  <input type="number" className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="10" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">প্রাইস</label>
+                  <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="৳ ১২,০০০" />
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-bold text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-xl transition-colors">বাতিল</button>
+              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors">সেভ করুন</button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

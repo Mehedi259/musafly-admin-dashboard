@@ -1,6 +1,7 @@
 'use client';
 
-import { Megaphone, Users, Target, Plus, Play, Pause, Share2, Mail, MessageSquare } from 'lucide-react';
+import { useState } from 'react';
+import { Megaphone, Users, Target, Plus, Play, Pause, Share2, Mail, MessageSquare, X } from 'lucide-react';
 
 const campaigns = [
   { id: 'CMP-001', name: 'Hajj Promo 2024', platform: 'Facebook Ads', icon: Share2, iconColor: 'text-blue-600', budget: '৳ ৫০,০০০', spent: '৳ ৩৪,৫০০', reach: '১২৪,০০০', status: 'চলমান (Active)', statusColor: 'bg-green-100 text-green-700' },
@@ -10,6 +11,8 @@ const campaigns = [
 ];
 
 export default function MarketingPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       
@@ -19,7 +22,10 @@ export default function MarketingPage() {
           <h1 className="text-3xl font-bold text-gray-900">মার্কেটিং ও ক্যাম্পেইন</h1>
           <p className="text-gray-500 text-sm mt-1">আপনার বিজ্ঞাপন এবং প্রোমোশনাল ক্যাম্পেইনগুলো পরিচালনা করুন।</p>
         </div>
-        <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm"
+        >
           <Plus size={18} /> নতুন ক্যাম্পেইন শুরু করুন
         </button>
       </div>
@@ -83,7 +89,11 @@ export default function MarketingPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="p-1.5 hover:bg-gray-100 text-gray-500 rounded-md transition-colors" title="Start/Pause">
+                      <button 
+                        onClick={() => alert('ক্যাম্পেইন স্ট্যাটাস পরিবর্তন করা হয়েছে!')}
+                        className="p-1.5 hover:bg-gray-100 text-gray-500 rounded-md transition-colors" 
+                        title="Start/Pause"
+                      >
                         {camp.status.includes('Active') ? <Pause size={16} /> : <Play size={16} />}
                       </button>
                     </div>
@@ -94,6 +104,42 @@ export default function MarketingPage() {
           </table>
         </div>
       </div>
+
+      {/* Add Campaign Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden">
+            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-gray-900">নতুন ক্যাম্পেইন শুরু করুন</h2>
+              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-200 rounded-full text-gray-500 transition-colors"><X size={20}/></button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">ক্যাম্পেইনের নাম</label>
+                <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="Hajj Promo 2024..." />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">প্ল্যাটফর্ম</label>
+                  <select className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
+                    <option>Facebook Ads</option>
+                    <option>Email Newsletter</option>
+                    <option>SMS Marketing</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">বাজেট</label>
+                  <input type="text" className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="৳ ৫০,০০০" />
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-bold text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-xl transition-colors">বাতিল</button>
+              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors">ক্যাম্পেইন শুরু করুন</button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

@@ -30,7 +30,10 @@ export default function ReportsPage() {
           <h1 className="text-3xl font-bold text-gray-900">ফাইন্যান্সিয়াল রিপোর্টস</h1>
           <p className="text-gray-500 text-sm mt-1">আপনার ব্যবসার আয়, ব্যয় এবং লাভের সম্পূর্ণ হিসাব।</p>
         </div>
-        <button className="flex items-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm">
+        <button 
+          onClick={() => alert('রিপোর্ট পিডিএফ জেনারেট হচ্ছে... (Development in progress)')}
+          className="flex items-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm"
+        >
           <Download size={18} /> রিপোর্ট ডাউনলোড
         </button>
       </div>

@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #5B9BD5;
-  --primary-hover: #4a8ac4;
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
   --secondary: #F4B942;
   --secondary-hover: #e3a831;
-  --background: #0f1115;
-  --surface: #1a1d24;
-  --surface-hover: #252932;
-  --border: #2e3340;
-  --text: #e2e8f0;
-  --text-muted: #94a3b8;
+  --background: #F4F7FE; /* Light bluish gray as seen in modern dashboards */
+  --surface: #FFFFFF;
+  --surface-hover: #F8FAFC;
+  --border: #E2E8F0;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --sidebar-bg: #0F172A;
 }
 
 body {

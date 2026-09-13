@@ -74,7 +74,6 @@ export default function Sidebar() {
             {isBookingsOpen && (
               <div className="pl-11 pr-4 py-2 space-y-1.5">
                 <Link href="/bookings" className={`block py-2 text-sm transition-colors ${pathname === '/bookings' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>সব বুকিং</Link>
-                <Link href="/deals" className={`block py-2 text-sm transition-colors ${pathname === '/deals' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>অফলাইন ডিলস</Link>
                 <Link href="/flights" className={`block py-2 text-sm transition-colors ${pathname === '/flights' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ফ্লাইট</Link>
                 
                 <Link href="/tours" className={`block py-2 text-sm transition-colors ${pathname === '/tours' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ট্যুর</Link>
@@ -83,6 +82,11 @@ export default function Sidebar() {
               </div>
             )}
           </div>
+
+          <Link href="/deals" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group ${pathname === '/deals' ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'hover:bg-white/5 hover:text-white'}`}>
+            <Briefcase size={20} className={pathname === '/deals' ? 'text-white' : 'text-gray-400 group-hover:text-white'} />
+            <span className="font-medium">অফলাইন ডিলস</span>
+          </Link>
 
           <Link href="/inventory" className="flex items-center justify-between px-4 py-2.5 rounded-xl transition-all group hover:bg-white/5 hover:text-white">
             <div className="flex items-center gap-3">

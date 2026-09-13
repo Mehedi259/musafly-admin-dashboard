@@ -1,19 +1,43 @@
 'use client';
 
 import { useState } from 'react';
+import axios from 'axios';
 import { X, Save, User, MapPin, Phone, Mail, CreditCard, Calendar, Globe, MessageSquare } from 'lucide-react';
 
 export default function ManualBookingForm({ onClose }: { onClose?: () => void }) {
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    customer_name: '',
+    phone_number: '',
+    address: '',
+    passport_number: '',
+    email: '',
+    service_category: 'ফ্লাইট টিকিট',
+    route_destination: '',
+    travel_date: '',
+    lead_source: 'WhatsApp',
+    deal_price: ''
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulation of API call to the backend
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await axios.post('/api/deals/', formData);
       if (onClose) onClose();
-    }, 1000);
+      // Optional: you can dispatch an event or use context to refresh the deals list
+      window.location.reload(); 
+    } catch (err) {
+      console.error('Failed to create deal:', err);
+      alert('ডিল সেভ করতে সমস্যা হয়েছে।');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,34 +64,34 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">সম্পূর্ণ নাম</label>
-              <input type="text" required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="John Doe" />
+              <input type="text" name="customer_name" value={formData.customer_name} onChange={handleChange} required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="John Doe" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ফোন নম্বর (WhatsApp)</label>
               <div className="relative">
                 <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="tel" required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="+880 1..." />
+                <input type="tel" name="phone_number" value={formData.phone_number} onChange={handleChange} required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="+880 1..." />
               </div>
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">সম্পূর্ণ ঠিকানা</label>
               <div className="relative">
                 <MapPin size={16} className="absolute left-3 top-3 text-gray-400" />
-                <textarea rows={2} required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="House, Road, City, Country" />
+                <textarea rows={2} name="address" value={formData.address} onChange={handleChange} required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="House, Road, City, Country" />
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">পাসপোর্ট নম্বর</label>
               <div className="relative">
                 <CreditCard size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="text" required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="A12345678" />
+                <input type="text" name="passport_number" value={formData.passport_number} onChange={handleChange} required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="A12345678" />
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ইমেইল ঠিকানা (ঐচ্ছিক)</label>
               <div className="relative">
                 <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="email" className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="john@example.com" />
+                <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="john@example.com" />
               </div>
             </div>
           </div>
@@ -83,7 +107,7 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">সার্ভিস ক্যাটাগরি</label>
-              <select className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
+              <select name="service_category" value={formData.service_category} onChange={handleChange} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
                 <option>ফ্লাইট টিকিট</option>
                 <option>হোটেল বুকিং</option>
                 <option>ভিসা প্রসেসিং</option>
@@ -93,20 +117,20 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">রুট / গন্তব্য বিস্তারিত</label>
-              <input type="text" required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="যেমন, ঢাকা থেকে সিলেট, ওমান থেকে সৌদি আরব" />
+              <input type="text" name="route_destination" value={formData.route_destination} onChange={handleChange} required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="যেমন, ঢাকা থেকে সিলেট, ওমান থেকে সৌদি আরব" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ভ্রমণের তারিখ</label>
               <div className="relative">
                 <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="date" required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" />
+                <input type="date" name="travel_date" value={formData.travel_date} onChange={handleChange} required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" />
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">লিড সোর্স</label>
               <div className="relative">
                 <MessageSquare size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <select className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
+                <select name="lead_source" value={formData.lead_source} onChange={handleChange} className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
                   <option>WhatsApp</option>
                   <option>Facebook Messenger</option>
                   <option>সরাসরি ফোন কল</option>
@@ -117,7 +141,7 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ডিল প্রাইস (OMR/BDT)</label>
-              <input type="number" required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="50000" />
+              <input type="number" name="deal_price" value={formData.deal_price} onChange={handleChange} required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="50000" />
             </div>
           </div>
         </div>

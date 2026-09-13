@@ -56,7 +56,7 @@ export default function DashboardHome() {
     <div className="space-y-6 pb-12 animate-in fade-in duration-500 relative">
       
       {/* 1. TOP STATS CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-6">
         {data.topStats?.map((stat: any, i: number) => {
           const Icon = getIcon(stat.icon);
           return (

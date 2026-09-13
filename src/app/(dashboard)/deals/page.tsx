@@ -1,117 +1,125 @@
 'use client';
 
-import { useState } from 'react';
-import { Briefcase, MapPin, Calendar, Globe, Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Briefcase, MapPin, Calendar, Globe, Search, Plus } from 'lucide-react';
+import ManualBookingForm from '@/components/forms/ManualBookingForm';
 
 export default function DealsPage() {
-  const [items, setItems] = useState<any[]>([
-    {
-      id: 1,
-      customerName: 'Rahim Uddin',
-      phone: '+880 1712345678',
-      category: 'ফ্লাইট টিকিট',
-      destination: 'ঢাকা থেকে দুবাই',
-      travelDate: '2024-05-15',
-      source: 'WhatsApp',
-      price: '45,000',
-    },
-    {
-      id: 2,
-      customerName: 'Karim Hasan',
-      phone: '+880 1812345678',
-      category: 'ভিসা প্রসেসিং',
-      destination: 'মালয়েশিয়া ট্যুরিস্ট ভিসা',
-      travelDate: '2024-06-10',
-      source: 'Facebook Messenger',
-      price: '8,500',
-    },
-    {
-      id: 3,
-      customerName: 'Abdul Alim',
-      phone: '+880 1912345678',
-      category: 'ওমরাহ প্যাকেজ',
-      destination: 'ঢাকা থেকে মক্কা/মদিনা',
-      travelDate: '2024-07-20',
-      source: 'সরাসরি ফোন কল',
-      price: '1,45,000',
-    },
-  ]);
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchDeals = async () => {
+      try {
+        const res = await axios.get('/api/deals/');
+        setItems(res.data);
+      } catch (err) {
+        console.error('Failed to fetch deals:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDeals();
+  }, []);
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 bg-white min-h-screen p-6 rounded-2xl border border-gray-100 shadow-sm">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-bold text-white mb-2">অফলাইন ডিলস</h1>
-          <p className="text-[#94a3b8]">সব অফলাইন বুকিং এবং ক্লায়েন্ট ডিল এখান থেকে ম্যানেজ করুন।</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">অফলাইন ডিলস</h1>
+          <p className="text-gray-500">সব অফলাইন বুকিং এবং ক্লায়েন্ট ডিল এখান থেকে ম্যানেজ করুন।</p>
         </div>
         
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="ডিল খুঁজুন..."
-            className="pl-10 pr-4 py-2 bg-[#1a1d24] border border-[#2e3340] rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
-          />
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="ডিল খুঁজুন..."
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+            />
+          </div>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm flex-shrink-0"
+          >
+            <Plus size={18} />
+            <span>নতুন ডিল</span>
+          </button>
         </div>
       </div>
 
-      <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl overflow-hidden">
-        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex justify-between items-center">
-          <h2 className="text-lg font-bold text-white">ডিল তালিকা</h2>
-          <span className="text-xs font-semibold px-2.5 py-1 bg-[#2e3340] text-[#94a3b8] rounded-lg border border-[#3e4455]">
+      <div className="border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 className="text-lg font-bold text-gray-900">ডিল তালিকা</h2>
+          <span className="text-xs font-semibold px-2.5 py-1 bg-white text-gray-600 rounded-lg border border-gray-200 shadow-sm">
             মোট: {items.length}
           </span>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-[#1a1d24]">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-white border-b border-gray-200">
               <tr>
-                <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">আইডি</th>
-                <th className="p-4 text-left font-semibold text-[#94a3b8]">কাস্টমার</th>
-                <th className="p-4 text-left font-semibold text-[#94a3b8]">ক্যাটাগরি</th>
-                <th className="p-4 text-left font-semibold text-[#94a3b8]">রুট/গন্তব্য</th>
-                <th className="p-4 text-left font-semibold text-[#94a3b8]">ভ্রমণের তারিখ</th>
-                <th className="p-4 text-left font-semibold text-[#94a3b8]">প্রাইস (BDT)</th>
+                <th className="p-4 font-semibold text-gray-600 w-16">আইডি</th>
+                <th className="p-4 font-semibold text-gray-600">কাস্টমার</th>
+                <th className="p-4 font-semibold text-gray-600">ক্যাটাগরি</th>
+                <th className="p-4 font-semibold text-gray-600">রুট/গন্তব্য</th>
+                <th className="p-4 font-semibold text-gray-600">ভ্রমণের তারিখ</th>
+                <th className="p-4 font-semibold text-gray-600">প্রাইস (BDT)</th>
               </tr>
             </thead>
-            <tbody>
-              {items.length === 0 ? (
+            <tbody className="divide-y divide-gray-100 bg-white">
+              {loading ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-[#94a3b8]">কোনো ডিল পাওয়া যায়নি।</td>
+                  <td colSpan={6} className="p-8 text-center text-gray-500">লোড হচ্ছে...</td>
+                </tr>
+              ) : items.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-gray-500">কোনো ডিল পাওয়া যায়নি।</td>
                 </tr>
               ) : items.map((item, index) => (
-                <tr key={index} className="hover:bg-[#252932] transition-colors group border-t border-[#2e3340]">
-                  <td className="p-4 text-[#94a3b8]">#{item.id}</td>
+                <tr key={item.id || index} className="hover:bg-gray-50/50 transition-colors group">
+                  <td className="p-4 text-gray-500 font-medium">#{item.id}</td>
                   <td className="p-4">
-                    <div className="text-white font-medium">{item.customerName}</div>
-                    <div className="text-xs text-[#94a3b8]">{item.phone}</div>
+                    <div className="text-gray-900 font-bold">{item.customer_name}</div>
+                    <div className="text-xs text-gray-500 mt-0.5">{item.phone_number}</div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      <Briefcase size={16} className="text-blue-400" />
-                      <span className="text-white">{item.category}</span>
+                      <Briefcase size={16} className="text-blue-500" />
+                      <span className="text-gray-700 font-medium">{item.service_category}</span>
                     </div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      <MapPin size={16} className="text-green-400" />
-                      <span className="text-white">{item.destination}</span>
+                      <MapPin size={16} className="text-green-500" />
+                      <span className="text-gray-700 font-medium">{item.route_destination}</span>
                     </div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      <Calendar size={16} className="text-purple-400" />
-                      <span className="text-[#94a3b8]">{item.travelDate}</span>
+                      <Calendar size={16} className="text-purple-500" />
+                      <span className="text-gray-600">{item.travel_date}</span>
                     </div>
                   </td>
-                  <td className="p-4 text-white font-bold">{item.price}</td>
+                  <td className="p-4 text-gray-900 font-bold">{item.deal_price}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
+            <ManualBookingForm onClose={() => setIsModalOpen(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

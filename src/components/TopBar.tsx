@@ -2,10 +2,8 @@
 
 import { useState } from 'react';
 import { Search, Bell, Globe, ChevronDown, User } from 'lucide-react';
-import ManualBookingForm from './forms/ManualBookingForm';
 
 export default function TopBar() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
@@ -25,13 +23,7 @@ export default function TopBar() {
       {/* Right Actions */}
       <div className="flex items-center gap-6 ml-4">
         
-        {/* Add Deal Button */}
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="hidden md:flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-colors shadow-sm font-semibold text-sm"
-        >
-          <span>+ নতুন ডিল</span>
-        </button>
+
 
         {/* Notification Bell */}
         <button className="relative p-2 text-gray-500 hover:text-gray-700 transition-colors bg-gray-50 rounded-full border border-gray-100">
@@ -62,14 +54,6 @@ export default function TopBar() {
       </div>
       </header>
 
-      {/* Global Add Deal Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
-            <ManualBookingForm onClose={() => setIsModalOpen(false)} />
-          </div>
-        </div>
-      )}
     </>
   );
 }

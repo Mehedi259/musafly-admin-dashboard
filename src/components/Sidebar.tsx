@@ -73,9 +73,9 @@ export default function Sidebar() {
             
             {isBookingsOpen && (
               <div className="pl-11 pr-4 py-2 space-y-1.5">
-                <Link href="/bookings" className="block py-2 text-sm text-gray-400 hover:text-white transition-colors">সব বুকিং</Link>
+                <Link href="/bookings" className={`block py-2 text-sm transition-colors ${pathname === '/bookings' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>সব বুকিং</Link>
                 <Link href="/flights" className={`block py-2 text-sm transition-colors ${pathname === '/flights' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ফ্লাইট</Link>
-                <Link href="/hotels" className="block py-2 text-sm text-gray-400 hover:text-white transition-colors">হোটেল</Link>
+                
                 <Link href="/tours" className={`block py-2 text-sm transition-colors ${pathname === '/tours' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ট্যুর</Link>
                 <Link href="/visas" className={`block py-2 text-sm transition-colors ${pathname === '/visas' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ভিসা</Link>
                 <Link href="/umrah" className={`block py-2 text-sm transition-colors ${pathname === '/umrah' ? 'text-white font-medium' : 'text-gray-400 hover:text-white'}`}>ওমরাহ</Link>

@@ -4,19 +4,19 @@ import { useState } from 'react';
 import axios from 'axios';
 import { X, Save, User, MapPin, Phone, Mail, CreditCard, Calendar, Globe, MessageSquare } from 'lucide-react';
 
-export default function ManualBookingForm({ onClose }: { onClose?: () => void }) {
+export default function ManualBookingForm({ onClose, initialData, isEditMode, onSuccess }: { onClose?: () => void, initialData?: any, isEditMode?: boolean, onSuccess?: () => void }) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    customer_name: '',
-    phone_number: '',
-    address: '',
-    passport_number: '',
-    email: '',
-    service_category: 'ফ্লাইট টিকিট',
-    route_destination: '',
-    travel_date: '',
-    lead_source: 'WhatsApp',
-    deal_price: ''
+    customer_name: initialData?.customer_name || '',
+    phone_number: initialData?.phone_number || '',
+    address: initialData?.address || '',
+    passport_number: initialData?.passport_number || '',
+    email: initialData?.email || '',
+    service_category: initialData?.service_category || 'ফ্লাইট টিকিট',
+    route_destination: initialData?.route_destination || '',
+    travel_date: initialData?.travel_date || '',
+    lead_source: initialData?.lead_source || 'WhatsApp',
+    deal_price: initialData?.deal_price || ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -28,12 +28,16 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('/api/deals/', formData);
+      if (isEditMode && initialData?.id) {
+        await axios.put(`/api/deals/${initialData.id}/`, formData);
+      } else {
+        await axios.post('/api/deals/', formData);
+      }
+      if (onSuccess) onSuccess();
       if (onClose) onClose();
-      // Optional: you can dispatch an event or use context to refresh the deals list
-      window.location.reload(); 
+      if (!onSuccess) window.location.reload(); 
     } catch (err) {
-      console.error('Failed to create deal:', err);
+      console.error('Failed to save deal:', err);
       alert('ডিল সেভ করতে সমস্যা হয়েছে।');
     } finally {
       setLoading(false);
@@ -44,7 +48,7 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
     <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 max-w-4xl w-full mx-auto">
       <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">অফলাইন বুকিং / ক্লাইন্ট যোগ করুন</h2>
+          <h2 className="text-xl font-bold text-gray-900">{isEditMode ? "ডিল আপডেট করুন" : "অফলাইন বুকিং / ক্লাইন্ট যোগ করুন"}</h2>
           <p className="text-sm text-gray-500">হোয়াটসঅ্যাপ, মেসেঞ্জার বা ফোনে হওয়া ডিল রেকর্ড করুন।</p>
         </div>
         {onClose && (
@@ -156,7 +160,7 @@ export default function ManualBookingForm({ onClose }: { onClose?: () => void })
           <button type="submit" disabled={loading} className="px-6 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors flex items-center gap-2">
             {loading ? 'ডেটাবেসে সেভ হচ্ছে...' : (
               <>
-                <Save size={18} /> সেভ ও নতুন ডিল
+                <Save size={18} /> {isEditMode ? "আপডেট করুন" : "সেভ ও নতুন ডিল"}
               </>
             )}
           </button>

@@ -10,18 +10,34 @@ export default function DealsPage() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDeal, setSelectedDeal] = useState<any>(null);
+  const [editingDeal, setEditingDeal] = useState<any>(null);
+
+  const fetchDeals = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get('/api/deals/');
+      setItems(res.data);
+    } catch (err) {
+      console.error('Failed to fetch deals:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (confirm("আপনি কি নিশ্চিত যে আপনি এই ডিলটি ডিলিট করতে চান?")) {
+      try {
+        await axios.delete(`/api/deals/${id}/`);
+        setSelectedDeal(null);
+        fetchDeals();
+      } catch (err) {
+        console.error("Failed to delete deal:", err);
+        alert("ডিলিট করতে সমস্যা হয়েছে।");
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchDeals = async () => {
-      try {
-        const res = await axios.get('/api/deals/');
-        setItems(res.data);
-      } catch (err) {
-        console.error('Failed to fetch deals:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDeals();
   }, []);
 
@@ -117,7 +133,7 @@ export default function DealsPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
-            <ManualBookingForm onClose={() => setIsModalOpen(false)} />
+            <ManualBookingForm onClose={() => setIsModalOpen(false)} onSuccess={fetchDeals} />
           </div>
         </div>
       )}
@@ -189,7 +205,21 @@ export default function DealsPage() {
               </div>
             </div>
             
-            <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+            <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => { setEditingDeal(selectedDeal); setSelectedDeal(null); }}
+                  className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl font-semibold transition-colors text-sm border border-blue-200"
+                >
+                  এডিট করুন
+                </button>
+                <button 
+                  onClick={() => handleDelete(selectedDeal.id)}
+                  className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-xl font-semibold transition-colors text-sm border border-red-200"
+                >
+                  ডিলিট করুন
+                </button>
+              </div>
               <button 
                 onClick={() => setSelectedDeal(null)}
                 className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-colors text-sm"
@@ -197,6 +227,18 @@ export default function DealsPage() {
                 বন্ধ করুন
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {editingDeal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
+            <ManualBookingForm 
+              onClose={() => setEditingDeal(null)} 
+              initialData={editingDeal} 
+              isEditMode={true} 
+              onSuccess={fetchDeals} 
+            />
           </div>
         </div>
       )}

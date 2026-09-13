@@ -9,6 +9,7 @@ export default function DealsPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDeal, setSelectedDeal] = useState<any>(null);
 
   useEffect(() => {
     const fetchDeals = async () => {
@@ -81,7 +82,7 @@ export default function DealsPage() {
                   <td colSpan={6} className="p-8 text-center text-gray-500">কোনো ডিল পাওয়া যায়নি।</td>
                 </tr>
               ) : items.map((item, index) => (
-                <tr key={item.id || index} className="hover:bg-gray-50/50 transition-colors group">
+                <tr key={item.id || index} onClick={() => setSelectedDeal(item)} className="hover:bg-gray-50/50 transition-colors group cursor-pointer">
                   <td className="p-4 text-gray-500 font-medium">#{item.id}</td>
                   <td className="p-4">
                     <div className="text-gray-900 font-bold">{item.customer_name}</div>
@@ -117,6 +118,85 @@ export default function DealsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
             <ManualBookingForm onClose={() => setIsModalOpen(false)} />
+          </div>
+        </div>
+      )}
+
+      {selectedDeal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+              <h2 className="text-xl font-bold text-gray-900">ডিল বিস্তারিত - #{selectedDeal.id}</h2>
+              <button 
+                onClick={() => setSelectedDeal(null)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <Plus size={24} className="rotate-45" />
+              </button>
+            </div>
+            
+            <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Customer Info */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">কাস্টমার তথ্য</h3>
+                
+                <div>
+                  <p className="text-xs text-gray-500">নাম</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.customer_name}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">ফোন নম্বর</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.phone_number}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">পাসপোর্ট নম্বর</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.passport_number || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">ইমেইল</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.email || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">ঠিকানা</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.address || 'N/A'}</p>
+                </div>
+              </div>
+
+              {/* Deal Info */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">বুকিং তথ্য</h3>
+                
+                <div>
+                  <p className="text-xs text-gray-500">ক্যাটাগরি</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.service_category}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">রুট/গন্তব্য</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.route_destination}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">ভ্রমণের তারিখ</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.travel_date}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">লিড সোর্স</p>
+                  <p className="font-semibold text-gray-900">{selectedDeal.lead_source}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500">প্রাইস (BDT)</p>
+                  <p className="text-lg font-bold text-blue-600">{selectedDeal.deal_price}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+              <button 
+                onClick={() => setSelectedDeal(null)}
+                className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold transition-colors text-sm"
+              >
+                বন্ধ করুন
+              </button>
+            </div>
           </div>
         </div>
       )}

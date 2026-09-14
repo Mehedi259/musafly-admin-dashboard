@@ -82,10 +82,11 @@ export default function DealsPage() {
               <tr>
                 <th className="p-4 font-semibold text-gray-600 w-16">আইডি</th>
                 <th className="p-4 font-semibold text-gray-600">কাস্টমার</th>
-                <th className="p-4 font-semibold text-gray-600">ক্যাটাগরি</th>
                 <th className="p-4 font-semibold text-gray-600">রুট/গন্তব্য</th>
                 <th className="p-4 font-semibold text-gray-600">ভ্রমণের তারিখ</th>
+                <th className="p-4 font-semibold text-gray-600">বিমানের নাম</th>
                 <th className="p-4 font-semibold text-gray-600">প্রাইস</th>
+                <th className="p-4 font-semibold text-gray-600">ক্যাটাগরি</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">

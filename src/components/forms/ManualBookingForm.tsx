@@ -15,6 +15,7 @@ export default function ManualBookingForm({ onClose, initialData, isEditMode, on
     service_category: initialData?.service_category || 'Flight Ticket',
     route_destination: initialData?.route_destination || '',
     travel_date: initialData?.travel_date || '',
+    airline_name: initialData?.airline_name || '',
     lead_source: initialData?.lead_source || 'WhatsApp',
     deal_price: initialData?.deal_price || '',
     currency: initialData?.currency || 'BDT'
@@ -130,6 +131,10 @@ export default function ManualBookingForm({ onClose, initialData, isEditMode, on
                 <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input type="date" name="travel_date" value={formData.travel_date} onChange={handleChange} required className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" />
               </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">বিমানের নাম (ঐচ্ছিক)</label>
+              <input type="text" name="airline_name" value={formData.airline_name} onChange={handleChange} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="যেমন, US-Bangla Airlines" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">লিড সোর্স</label>

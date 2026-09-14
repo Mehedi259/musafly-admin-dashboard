@@ -8,7 +8,7 @@ const API_URL = '/api/visas/';
 
 export default function VisasPage() {
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({country: '', visa_type: '', processing_time: '', price: '', requirements: ''});
+  const [formData, setFormData] = useState({country: '', visa_type: '', processing_time: '', price: '', requirements: '', image: null as File | null | string});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -29,8 +29,15 @@ export default function VisasPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(API_URL, formData);
-      setFormData({country: '', visa_type: '', processing_time: '', price: '', requirements: ''});
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          if (key === 'image' && typeof value === 'string') return;
+          data.append(key, value as string | Blob);
+        }
+      });
+      await axios.post(API_URL, data, { headers: { 'Content-Type': 'multipart/form-data' } });
+      setFormData({country: '', visa_type: '', processing_time: '', price: '', requirements: '', image: null});
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
@@ -89,6 +96,10 @@ export default function VisasPage() {
             <input type="number" step="0.01" placeholder="প্রাইস লিখুন (OMR)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
               value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Image</label>
+            <input type="file" accept="image/*" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" onChange={e => setFormData({...formData, image: e.target.files ? e.target.files[0] : null})} />
+          </div>
           <div className="flex flex-col gap-1.5 md:col-span-2">
             <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Requirements</label>
             <textarea placeholder="Enter Requirements" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors min-h-[100px]" required
@@ -113,6 +124,7 @@ export default function VisasPage() {
             <thead className="bg-[#1a1d24]">
               <tr>
                 <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">আইডি</th>
+                <th className="p-4 text-left font-semibold text-[#94a3b8]">ছবি</th>
                 <th className="p-4 text-left font-semibold text-[#94a3b8]">দেশ</th>
 <th className="p-4 text-left font-semibold text-[#94a3b8]">Type</th>
 <th className="p-4 text-left font-semibold text-[#94a3b8]">প্রাইস</th>
@@ -128,6 +140,9 @@ export default function VisasPage() {
               ) : items.map((item: any) => (
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">
+                    {item.image ? <img src={item.image} alt={item.country} className="w-12 h-12 object-cover rounded-lg border border-[#2e3340]" /> : <div className="w-12 h-12 bg-[#252932] rounded-lg border border-[#2e3340] flex items-center justify-center text-xs text-[#94a3b8]">N/A</div>}
+                  </td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.country}</td>
 <td className="p-4 border-t border-[#2e3340] text-white">{item.visa_type}</td>
 <td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>

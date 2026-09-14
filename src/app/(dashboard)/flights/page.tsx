@@ -8,7 +8,7 @@ const API_URL = '/api/flights/';
 
 export default function FlightsPage() {
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({airline: '', price: '', origin: '', destination: '', departure_time: '', arrival_time: ''});
+  const [formData, setFormData] = useState({airline: '', price: '', origin: '', destination: '', departure_time: '', arrival_time: '', image: null as File | null | string});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -29,8 +29,15 @@ export default function FlightsPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(API_URL, formData);
-      setFormData({airline: '', price: '', origin: '', destination: '', departure_time: '', arrival_time: ''});
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          if (key === 'image' && typeof value === 'string') return;
+          data.append(key, value as string | Blob);
+        }
+      });
+      await axios.post(API_URL, data, { headers: { 'Content-Type': 'multipart/form-data' } });
+      setFormData({airline: '', price: '', origin: '', destination: '', departure_time: '', arrival_time: '', image: null});
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
@@ -99,6 +106,10 @@ export default function FlightsPage() {
             <input type="datetime-local" step="0.01" placeholder="পৌঁছানোর সময় লিখুন" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
               value={formData.arrival_time} onChange={e => setFormData({...formData, arrival_time: e.target.value})} />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Image</label>
+            <input type="file" accept="image/*" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" onChange={e => setFormData({...formData, image: e.target.files ? e.target.files[0] : null})} />
+          </div>
           <div className="md:col-span-2 mt-2">
             <button type="submit" disabled={loading} className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#5B9BD5] to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50">
               {loading ? 'সেভ হচ্ছে...' : 'ফ্লাইট সেভ করুন'}
@@ -133,6 +144,9 @@ export default function FlightsPage() {
               ) : items.map((item: any) => (
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">
+                    {item.image ? <img src={item.image} alt={item.airline} className="w-12 h-12 object-cover rounded-lg border border-[#2e3340]" /> : <div className="w-12 h-12 bg-[#252932] rounded-lg border border-[#2e3340] flex items-center justify-center text-xs text-[#94a3b8]">N/A</div>}
+                  </td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.airline}</td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.origin} → {item.destination}</td>
                   <td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>

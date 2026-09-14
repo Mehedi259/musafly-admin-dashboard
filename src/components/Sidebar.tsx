@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Home, Plane, Map, FileText, Moon, MessageSquare, HelpCircle, Menu, X, ChevronRight, Users, BarChart2, Megaphone, Settings, Briefcase, ChevronDown, Headset, Send } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { logout } from '@/app/actions/auth';
+import { Home, Plane, Map, FileText, Moon, MessageSquare, HelpCircle, Menu, X, ChevronRight, Users, BarChart2, Megaphone, Settings, Briefcase, ChevronDown, Headset, Send, LogOut } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isBookingsOpen, setIsBookingsOpen] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <>
@@ -121,6 +123,17 @@ export default function Sidebar() {
             <Settings size={20} className="text-gray-400 group-hover:text-white" />
             <span className="font-medium">সেটিংস</span>
           </Link>
+        
+          <button 
+            onClick={async () => {
+              await logout();
+              router.push('/login');
+            }}
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group hover:bg-red-500/10 hover:text-red-400 mt-4 text-gray-400"
+          >
+            <LogOut size={20} className="text-gray-400 group-hover:text-red-400" />
+            <span className="font-medium">লগআউট</span>
+          </button>
         </nav>
 
         {/* Need Help Card */}

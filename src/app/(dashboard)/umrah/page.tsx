@@ -8,7 +8,7 @@ const API_URL = '/api/umrah/';
 
 export default function UmrahPage() {
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({package_name: '', price: '', inclusions: ''});
+  const [formData, setFormData] = useState({package_name: '', price: '', image: null as File | null | string, inclusions: ''});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
@@ -30,12 +30,23 @@ export default function UmrahPage() {
     e.preventDefault();
     setLoading(true);
     try {
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          // If editing and image is a string (URL), don't send it to avoid re-uploading the same URL string
+          if (key === 'image' && typeof value === 'string') return;
+          data.append(key, value as string | Blob);
+        }
+      });
+      
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      
       if (editId) {
-        await axios.put(`${API_URL}${editId}/`, formData);
+        await axios.put(`${API_URL}${editId}/`, data, config);
       } else {
-        await axios.post(API_URL, formData);
+        await axios.post(API_URL, data, config);
       }
-      setFormData({package_name: '', price: '', inclusions: ''});
+      setFormData({package_name: '', price: '', image: null, inclusions: ''});
       setEditId(null);
       fetchData();
       setIsFormVisible(false);
@@ -50,6 +61,7 @@ export default function UmrahPage() {
     setFormData({
       package_name: item.package_name,
       price: item.price,
+      image: item.image,
       inclusions: item.inclusions
     });
     setEditId(item.id);
@@ -60,7 +72,7 @@ export default function UmrahPage() {
     if (isFormVisible && !editId) {
       setIsFormVisible(false);
     } else {
-      setFormData({package_name: '', price: '', inclusions: ''});
+      setFormData({package_name: '', price: '', image: null, inclusions: ''});
       setEditId(null);
       setIsFormVisible(true);
     }
@@ -69,7 +81,7 @@ export default function UmrahPage() {
   const handleCancel = () => {
     setIsFormVisible(false);
     setEditId(null);
-    setFormData({package_name: '', price: '', inclusions: ''});
+    setFormData({package_name: '', price: '', image: null, inclusions: ''});
   };
 
   const handleDelete = async (id: number) => {
@@ -118,6 +130,10 @@ export default function UmrahPage() {
             <input type="number" step="0.01" placeholder="প্রাইস লিখুন (OMR)" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" required
               value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Image</label>
+            <input type="file" accept="image/*" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors" onChange={e => setFormData({...formData, image: e.target.files ? e.target.files[0] : null})} />
+          </div>
           <div className="flex flex-col gap-1.5 md:col-span-2">
             <label className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wide">Inclusions</label>
             <textarea placeholder="Enter Inclusions" className="bg-[#0f1115] border border-[#2e3340] p-3 rounded-xl text-white focus:outline-none focus:border-[#5B9BD5] transition-colors min-h-[100px]" required
@@ -142,6 +158,7 @@ export default function UmrahPage() {
             <thead className="bg-[#1a1d24]">
               <tr>
                 <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">আইডি</th>
+                <th className="p-4 text-left font-semibold text-[#94a3b8]">ছবি</th>
                 <th className="p-4 text-left font-semibold text-[#94a3b8]">প্যাকেজের নাম</th>
 <th className="p-4 text-left font-semibold text-[#94a3b8]">প্রাইস</th>
 
@@ -156,6 +173,9 @@ export default function UmrahPage() {
               ) : items.map((item: any) => (
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">
+                    {item.image ? <img src={item.image} alt={item.package_name} className="w-12 h-12 object-cover rounded-lg border border-[#2e3340]" /> : <div className="w-12 h-12 bg-[#252932] rounded-lg border border-[#2e3340] flex items-center justify-center text-xs text-[#94a3b8]">N/A</div>}
+                  </td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.package_name}</td>
 <td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>
 

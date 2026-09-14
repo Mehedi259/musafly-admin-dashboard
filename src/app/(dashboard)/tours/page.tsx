@@ -2,15 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Trash2, Plus, X } from 'lucide-react';
+import { Trash2, Plus, X, Edit2 } from 'lucide-react';
 
 const API_URL = '/api/tours/';
 
 export default function ToursPage() {
   const [items, setItems] = useState([]);
-  const [formData, setFormData] = useState({destination: '', duration: '', price: '', image: null as File | null, inclusions: ''});
+  const [formData, setFormData] = useState({destination: '', duration: '', price: '', image: null as File | null | string, inclusions: ''});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -40,7 +41,7 @@ export default function ToursPage() {
           'Content-Type': 'multipart/form-data'
         }
       });
-      setFormData({destination: '', duration: '', price: '', image: null as File | null, inclusions: ''});
+      setFormData({destination: '', duration: '', price: '', image: null as File | null | string, inclusions: ''});
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
@@ -48,6 +49,34 @@ export default function ToursPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = (item: any) => {
+    setFormData({
+      destination: item.destination,
+      duration: item.duration,
+      price: item.price,
+      image: item.image,
+      inclusions: item.inclusions
+    });
+    setEditId(item.id);
+    setIsFormVisible(true);
+  };
+
+  const handleAddNew = () => {
+    if (isFormVisible && !editId) {
+      setIsFormVisible(false);
+    } else {
+      setFormData({destination: '', duration: '', price: '', image: null, inclusions: ''});
+      setEditId(null);
+      setIsFormVisible(true);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsFormVisible(false);
+    setEditId(null);
+    setFormData({destination: '', duration: '', price: '', image: null, inclusions: ''});
   };
 
   const handleDelete = async (id: number) => {
@@ -65,17 +94,29 @@ export default function ToursPage() {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-4xl font-bold text-white">ট্যুর ম্যানেজমেন্ট</h1>
-        <button type="button" onClick={() => setIsFormVisible(!isFormVisible)} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
-          {isFormVisible ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
-          <span className="font-semibold">{isFormVisible ? 'বাতিল' : 'নতুন ট্যুর যোগ করুন'}</span>
-        </button>
+        {items.length === 0 || !isFormVisible || editId ? (
+          <button type="button" onClick={handleAddNew} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
+            {isFormVisible && !editId ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
+            <span className="font-semibold">{isFormVisible && !editId ? 'বাতিল' : 'নতুন ট্যুর যোগ করুন'}</span>
+          </button>
+        ) : (
+          <button type="button" onClick={handleCancel} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
+            <X size={20} className="text-red-400" />
+            <span className="font-semibold">বাতিল</span>
+          </button>
+        )}
       </div>
       
       {isFormVisible && (
       <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl mb-8 overflow-hidden animate-in slide-in-from-top-4 duration-300">
-        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center gap-2">
-          <Plus className="text-[#F4B942]" size={20} />
-          <h2 className="text-lg font-bold text-white">নতুন ট্যুর যোগ করুন</h2>
+        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {editId ? <Edit2 className="text-[#F4B942]" size={20} /> : <Plus className="text-[#F4B942]" size={20} />}
+            <h2 className="text-lg font-bold text-white">{editId ? 'Edit Tour' : 'নতুন ট্যুর যোগ করুন'}</h2>
+          </div>
+          <button type="button" onClick={handleCancel} className="text-[#94a3b8] hover:text-white">
+            <X size={20} />
+          </button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           
@@ -105,7 +146,7 @@ export default function ToursPage() {
           </div>
           <div className="md:col-span-2 mt-2">
             <button type="submit" disabled={loading} className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#5B9BD5] to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50">
-              {loading ? 'সেভ হচ্ছে...' : 'ট্যুর সেভ করুন'}
+              {loading ? 'সেভ হচ্ছে...' : (editId ? 'আপডেট করুন' : 'ট্যুর সেভ করুন')}
             </button>
           </div>
         </form>
@@ -122,6 +163,7 @@ export default function ToursPage() {
             <thead className="bg-[#1a1d24]">
               <tr>
                 <th className="p-4 text-left font-semibold text-[#94a3b8] w-16">আইডি</th>
+                <th className="p-4 text-left font-semibold text-[#94a3b8]">ছবি</th>
                 <th className="p-4 text-left font-semibold text-[#94a3b8]">গন্তব্য</th>
 <th className="p-4 text-left font-semibold text-[#94a3b8]">সময়কাল</th>
 <th className="p-4 text-left font-semibold text-[#94a3b8]">প্রাইস</th>
@@ -137,11 +179,17 @@ export default function ToursPage() {
               ) : items.map((item: any) => (
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
+                  <td className="p-4 border-t border-[#2e3340] text-white">
+                    {item.image ? <img src={item.image} alt={item.destination} className="w-12 h-12 object-cover rounded-lg border border-[#2e3340]" /> : <div className="w-12 h-12 bg-[#252932] rounded-lg border border-[#2e3340] flex items-center justify-center text-xs text-[#94a3b8]">N/A</div>}
+                  </td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.destination}</td>
 <td className="p-4 border-t border-[#2e3340] text-white">{item.duration}</td>
 <td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>
 
                   <td className="p-4 border-t border-[#2e3340] text-right">
+                    <button onClick={() => handleEdit(item)} className="p-2 text-[#94a3b8] hover:text-[#5B9BD5] hover:bg-[#5B9BD5]/10 rounded-lg transition-colors mr-2">
+                      <Edit2 size={18} />
+                    </button>
                     <button onClick={() => handleDelete(item.id)} className="p-2 text-[#94a3b8] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors">
                       <Trash2 size={18} />
                     </button>

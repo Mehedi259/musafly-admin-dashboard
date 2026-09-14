@@ -60,7 +60,7 @@ export default function LoginPage() {
                   autoComplete="email"
                   required
                   className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border bg-gray-50/50"
-                  placeholder="admin@musafly.com"
+                  placeholder="example@email.com"
                 />
               </div>
             </div>

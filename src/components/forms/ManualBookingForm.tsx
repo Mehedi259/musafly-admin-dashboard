@@ -12,7 +12,7 @@ export default function ManualBookingForm({ onClose, initialData, isEditMode, on
     address: initialData?.address || '',
     passport_number: initialData?.passport_number || '',
     email: initialData?.email || '',
-    service_category: initialData?.service_category || 'ফ্লাইট টিকিট',
+    service_category: initialData?.service_category || 'Flight Ticket',
     route_destination: initialData?.route_destination || '',
     travel_date: initialData?.travel_date || '',
     lead_source: initialData?.lead_source || 'WhatsApp',
@@ -112,11 +112,11 @@ export default function ManualBookingForm({ onClose, initialData, isEditMode, on
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">সার্ভিস ক্যাটাগরি</label>
               <select name="service_category" value={formData.service_category} onChange={handleChange} className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
-                <option>ফ্লাইট টিকিট</option>
-                <option>হোটেল বুকিং</option>
-                <option>ভিসা প্রসেসিং</option>
-                <option>ওমরাহ প্যাকেজ</option>
-                <option>হলিডে ট্যুর</option>
+                <option>Flight Ticket</option>
+                <option>Visa Process</option>
+                <option>Umrah</option>
+                <option>Tour</option>
+                <option>Ads</option>
               </select>
             </div>
             <div className="md:col-span-2">

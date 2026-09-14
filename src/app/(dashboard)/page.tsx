@@ -257,7 +257,7 @@ export default function DashboardHome() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-5 border-b border-gray-100 flex justify-between items-center">
             <h2 className="text-base font-bold text-gray-900">আসন্ন ফ্লাইট</h2>
-            <a href="/flights" className="text-blue-600 text-xs font-semibold hover:underline">সব দেখুন</a>
+            <a href="/deals" className="text-blue-600 text-xs font-semibold hover:underline">সব দেখুন</a>
           </div>
           {data.upcomingFlights && data.upcomingFlights.length > 0 ? (
             <table className="w-full text-left text-xs">

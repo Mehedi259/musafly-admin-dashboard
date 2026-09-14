@@ -16,7 +16,8 @@ export default function ManualBookingForm({ onClose, initialData, isEditMode, on
     route_destination: initialData?.route_destination || '',
     travel_date: initialData?.travel_date || '',
     lead_source: initialData?.lead_source || 'WhatsApp',
-    deal_price: initialData?.deal_price || ''
+    deal_price: initialData?.deal_price || '',
+    currency: initialData?.currency || 'BDT'
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -144,8 +145,14 @@ export default function ManualBookingForm({ onClose, initialData, isEditMode, on
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ডিল প্রাইস (OMR/BDT)</label>
-              <input type="number" name="deal_price" value={formData.deal_price} onChange={handleChange} required className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="50000" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">ডিল প্রাইস</label>
+              <div className="flex gap-2">
+                <input type="number" name="deal_price" value={formData.deal_price} onChange={handleChange} required className="flex-1 w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none" placeholder="5000" />
+                <select name="currency" value={formData.currency} onChange={handleChange} className="w-24 px-2 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white">
+                  <option value="BDT">BDT</option>
+                  <option value="OMR">OMR</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>

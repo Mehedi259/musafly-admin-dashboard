@@ -136,23 +136,7 @@ export default function Sidebar() {
           </button>
         </nav>
 
-        {/* Need Help Card */}
-        <div className="p-6">
-          <div className="bg-[#152033] rounded-2xl p-4 border border-white/5">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="bg-white/10 p-2 rounded-xl">
-                <Headset size={20} className="text-gray-300" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-white">সাহায্য প্রয়োজন?</p>
-                <p className="text-xs text-gray-400">আমাদের সাথে যোগাযোগ করুন</p>
-              </div>
-            </div>
-            <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm">
-              যোগাযোগ
-            </button>
-          </div>
-        </div>
+
       </div>
     </>
   );

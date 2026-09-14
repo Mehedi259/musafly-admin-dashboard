@@ -1,9 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, Bell, Globe, ChevronDown, User } from 'lucide-react';
+import { Search, Bell, Globe, ChevronDown, User, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { logout } from '@/app/actions/auth';
 
 export default function TopBar() {
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -41,15 +45,39 @@ export default function TopBar() {
         <div className="w-px h-8 bg-gray-200"></div>
 
         {/* Profile */}
-        <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-1.5 rounded-xl transition-colors">
-          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200 overflow-hidden">
-            <User size={20} className="text-blue-600" />
+        <div className="relative">
+          <div 
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-1.5 rounded-xl transition-colors"
+          >
+            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200 overflow-hidden">
+              <User size={20} className="text-blue-600" />
+            </div>
+            <div className="hidden sm:block">
+              <p className="text-sm font-bold text-gray-900">অ্যাডমিন</p>
+              <p className="text-xs text-gray-500 font-medium">সুপার অ্যাডমিন</p>
+            </div>
+            <ChevronDown size={16} className={`text-gray-400 hidden sm:block ml-1 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
           </div>
-          <div className="hidden sm:block">
-            <p className="text-sm font-bold text-gray-900">অ্যাডমিন</p>
-            <p className="text-xs text-gray-500 font-medium">সুপার অ্যাডমিন</p>
-          </div>
-          <ChevronDown size={16} className="text-gray-400 hidden sm:block ml-1" />
+
+          {/* Dropdown */}
+          {isProfileOpen && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setIsProfileOpen(false)}></div>
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20 animate-in fade-in slide-in-from-top-2">
+                <button
+                  onClick={async () => {
+                    await logout();
+                    router.push('/login');
+                  }}
+                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <LogOut size={16} />
+                  লগআউট
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
       </header>

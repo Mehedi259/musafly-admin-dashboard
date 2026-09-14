@@ -113,7 +113,7 @@ export default function ReportsPage() {
           <button onClick={() => setIsMonthModalOpen(true)} className="flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-700 px-4 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm">
             <Plus size={18} /> মাসিক রিপোর্ট যোগ
           </button>
-          <button onClick={() => alert('রিপোর্ট পিডিএফ জেনারেট হচ্ছে...')} className="flex items-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm">
+          <button onClick={() => window.print()} className="flex items-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-xl transition-colors shadow-sm font-semibold text-sm">
             <Download size={18} /> ডাউনলোড
           </button>
         </div>

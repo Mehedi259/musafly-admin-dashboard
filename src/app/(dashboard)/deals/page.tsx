@@ -85,7 +85,7 @@ export default function DealsPage() {
                 <th className="p-4 font-semibold text-gray-600">ক্যাটাগরি</th>
                 <th className="p-4 font-semibold text-gray-600">রুট/গন্তব্য</th>
                 <th className="p-4 font-semibold text-gray-600">ভ্রমণের তারিখ</th>
-                <th className="p-4 font-semibold text-gray-600">প্রাইস (BDT)</th>
+                <th className="p-4 font-semibold text-gray-600">প্রাইস</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
@@ -122,7 +122,7 @@ export default function DealsPage() {
                       <span className="text-gray-600">{item.travel_date}</span>
                     </div>
                   </td>
-                  <td className="p-4 text-gray-900 font-bold">{item.deal_price}</td>
+                  <td className="p-4 text-gray-900 font-bold">{item.deal_price} {item.currency || "BDT"}</td>
                 </tr>
               ))}
             </tbody>
@@ -199,8 +199,8 @@ export default function DealsPage() {
                   <p className="font-semibold text-gray-900">{selectedDeal.lead_source}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">প্রাইস (BDT)</p>
-                  <p className="text-lg font-bold text-blue-600">{selectedDeal.deal_price}</p>
+                  <p className="text-xs text-gray-500">প্রাইস</p>
+                  <p className="text-lg font-bold text-blue-600">{selectedDeal.deal_price} {selectedDeal.currency || "BDT"}</p>
                 </div>
               </div>
             </div>

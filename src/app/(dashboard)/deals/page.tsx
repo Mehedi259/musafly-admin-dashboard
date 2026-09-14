@@ -107,12 +107,6 @@ export default function DealsPage() {
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      <Briefcase size={16} className="text-blue-500" />
-                      <span className="text-gray-700 font-medium">{item.service_category}</span>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
                       <MapPin size={16} className="text-green-500" />
                       <span className="text-gray-700 font-medium">{item.route_destination}</span>
                     </div>
@@ -123,7 +117,16 @@ export default function DealsPage() {
                       <span className="text-gray-600">{item.travel_date}</span>
                     </div>
                   </td>
+                  <td className="p-4">
+                    <div className="text-sm font-medium text-gray-800">{item.airline_name || "-"}</div>
+                  </td>
                   <td className="p-4 text-gray-900 font-bold">{item.deal_price} {item.currency || "BDT"}</td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <Briefcase size={16} className="text-blue-500" />
+                      <span className="text-gray-700 font-medium">{item.service_category}</span>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

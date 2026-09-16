@@ -30,22 +30,27 @@ export default function ToursPage() {
     e.preventDefault();
     setLoading(true);
     try {
-            const data = new FormData();
+      const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         if (value !== null && value !== '') {
+          if (key === 'image' && typeof value === 'string') return;
           data.append(key, value as string | Blob);
         }
       });
-      await axios.post(API_URL, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      setFormData({destination: '', duration: '', price: '', image: null as File | null | string, inclusions: ''});
+      
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      if (editId) {
+        await axios.put(`${API_URL}${editId}/`, data, config);
+      } else {
+        await axios.post(API_URL, data, config);
+      }
+      
+      setFormData({destination: '', duration: '', price: '', image: null, inclusions: ''});
+      setEditId(null);
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
-      console.error('Error creating item:', err);
+      console.error('Error creating/updating item:', err);
     } finally {
       setLoading(false);
     }

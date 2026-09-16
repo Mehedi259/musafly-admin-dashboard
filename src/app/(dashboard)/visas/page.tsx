@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Trash2, Plus, X } from 'lucide-react';
+import { Trash2, Plus, X, Edit2 } from 'lucide-react';
 
 const API_URL = '/api/visas/';
 
@@ -11,6 +11,7 @@ export default function VisasPage() {
   const [formData, setFormData] = useState({country: '', visa_type: '', processing_time: '', price: '', requirements: '', image: null as File | null | string});
   const [loading, setLoading] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -36,15 +37,52 @@ export default function VisasPage() {
           data.append(key, value as string | Blob);
         }
       });
-      await axios.post(API_URL, data, { headers: { 'Content-Type': 'multipart/form-data' } });
+      
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      if (editId) {
+        await axios.put(`${API_URL}${editId}/`, data, config);
+      } else {
+        await axios.post(API_URL, data, config);
+      }
+      
       setFormData({country: '', visa_type: '', processing_time: '', price: '', requirements: '', image: null});
+      setEditId(null);
       fetchData();
       setIsFormVisible(false);
     } catch (err) {
-      console.error('Error creating item:', err);
+      console.error('Error creating/updating item:', err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = (item: any) => {
+    setFormData({
+      country: item.country,
+      visa_type: item.visa_type,
+      processing_time: item.processing_time,
+      price: item.price,
+      requirements: item.requirements,
+      image: item.image
+    });
+    setEditId(item.id);
+    setIsFormVisible(true);
+  };
+
+  const handleAddNew = () => {
+    if (isFormVisible && !editId) {
+      setIsFormVisible(false);
+    } else {
+      setFormData({country: '', visa_type: '', processing_time: '', price: '', requirements: '', image: null});
+      setEditId(null);
+      setIsFormVisible(true);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsFormVisible(false);
+    setEditId(null);
+    setFormData({country: '', visa_type: '', processing_time: '', price: '', requirements: '', image: null});
   };
 
   const handleDelete = async (id: number) => {
@@ -62,17 +100,29 @@ export default function VisasPage() {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <h1 className="text-4xl font-bold text-white">ভিসা ম্যানেজমেন্ট</h1>
-        <button type="button" onClick={() => setIsFormVisible(!isFormVisible)} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
-          {isFormVisible ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
-          <span className="font-semibold">{isFormVisible ? 'বাতিল' : 'নতুন ভিসা যোগ করুন'}</span>
-        </button>
+        {items.length === 0 || !isFormVisible || editId ? (
+          <button type="button" onClick={handleAddNew} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
+            {isFormVisible && !editId ? <X size={20} className="text-red-400" /> : <Plus size={20} className="text-[#F4B942]" />}
+            <span className="font-semibold">{isFormVisible && !editId ? 'বাতিল' : 'নতুন ভিসা যোগ করুন'}</span>
+          </button>
+        ) : (
+          <button type="button" onClick={handleCancel} className="flex items-center gap-2 px-4 py-2 bg-[#252932] hover:bg-[#2e3340] text-white rounded-xl transition-all border border-[#2e3340] shadow-sm">
+            <X size={20} className="text-red-400" />
+            <span className="font-semibold">বাতিল</span>
+          </button>
+        )}
       </div>
       
       {isFormVisible && (
       <div className="bg-[#1a1d24] border border-[#2e3340] rounded-2xl shadow-xl mb-8 overflow-hidden animate-in slide-in-from-top-4 duration-300">
-        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center gap-2">
-          <Plus className="text-[#F4B942]" size={20} />
-          <h2 className="text-lg font-bold text-white">নতুন ভিসা যোগ করুন</h2>
+        <div className="bg-[#252932] px-6 py-4 border-b border-[#2e3340] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {editId ? <Edit2 className="text-[#F4B942]" size={20} /> : <Plus className="text-[#F4B942]" size={20} />}
+            <h2 className="text-lg font-bold text-white">{editId ? 'Edit Visa' : 'নতুন ভিসা যোগ করুন'}</h2>
+          </div>
+          <button type="button" onClick={handleCancel} className="text-[#94a3b8] hover:text-white">
+            <X size={20} />
+          </button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           
@@ -107,7 +157,7 @@ export default function VisasPage() {
           </div>
           <div className="md:col-span-2 mt-2">
             <button type="submit" disabled={loading} className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#5B9BD5] to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50">
-              {loading ? 'সেভ হচ্ছে...' : 'ভিসা সেভ করুন'}
+              {loading ? 'সেভ হচ্ছে...' : (editId ? 'আপডেট করুন' : 'ভিসা সেভ করুন')}
             </button>
           </div>
         </form>
@@ -148,6 +198,9 @@ export default function VisasPage() {
 <td className="p-4 border-t border-[#2e3340] text-white">OMR {item.price}</td>
 
                   <td className="p-4 border-t border-[#2e3340] text-right">
+                    <button onClick={() => handleEdit(item)} className="p-2 text-[#94a3b8] hover:text-[#5B9BD5] hover:bg-[#5B9BD5]/10 rounded-lg transition-colors mr-2">
+                      <Edit2 size={18} />
+                    </button>
                     <button onClick={() => handleDelete(item.id)} className="p-2 text-[#94a3b8] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors">
                       <Trash2 size={18} />
                     </button>

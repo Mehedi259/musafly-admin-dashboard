@@ -145,7 +145,7 @@ export default function FlightsPage() {
                 <tr key={item.id} className="hover:bg-[#252932] transition-colors group">
                   <td className="p-4 border-t border-[#2e3340] text-[#94a3b8]">#{item.id}</td>
                   <td className="p-4 border-t border-[#2e3340] text-white">
-                    {item.image ? <img src={item.image} alt={item.airline} className="w-12 h-12 object-cover rounded-lg border border-[#2e3340]" /> : <div className="w-12 h-12 bg-[#252932] rounded-lg border border-[#2e3340] flex items-center justify-center text-xs text-[#94a3b8]">N/A</div>}
+                    {item.image ? <img src={item.image.replace("http://46.225.103.236:8001", "").replace("https://admin.musafly.com", "")} alt={item.airline} className="w-12 h-12 object-cover rounded-lg border border-[#2e3340]" /> : <div className="w-12 h-12 bg-[#252932] rounded-lg border border-[#2e3340] flex items-center justify-center text-xs text-[#94a3b8]">N/A</div>}
                   </td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.airline}</td>
                   <td className="p-4 border-t border-[#2e3340] text-white">{item.origin} → {item.destination}</td>

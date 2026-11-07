@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { logout } from '@/app/actions/auth';
-import { Home, Plane, Map, FileText, Moon, MessageSquare, HelpCircle, Menu, X, ChevronRight, Users, BarChart2, Megaphone, Settings, Briefcase, ChevronDown, Headset, Send, LogOut } from 'lucide-react';
+import { Home, Plane, Map, FileText, Moon, MessageSquare, HelpCircle, Menu, X, ChevronRight, Users, BarChart2, Megaphone, Settings, Briefcase, ChevronDown, Headset, Send, LogOut, Bell } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 
 export default function Sidebar() {
@@ -117,6 +117,11 @@ export default function Sidebar() {
               <span className="font-medium">মার্কেটিং</span>
             </div>
             <ChevronDown size={16} className="text-gray-500 -rotate-90" />
+          </Link>
+
+          <Link href="/notifications" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group ${pathname === '/notifications' ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'hover:bg-white/5 hover:text-white'}`}>
+            <Bell size={20} className={pathname === '/notifications' ? 'text-white' : 'text-gray-400 group-hover:text-white'} />
+            <span className="font-medium">নোটিফিকেশন ও অফার</span>
           </Link>
 
           <Link href="/settings" className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all group hover:bg-white/5 hover:text-white">
